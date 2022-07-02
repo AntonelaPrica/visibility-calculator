@@ -3,8 +3,7 @@
 	"projects": {
 		"api-interfaces": "libs/api-interfaces",
 		"visibility-calculator-api": "apps/visibility-calculator-api",
-		"visibility-calculator-ui": "apps/visibility-calculator-ui",
-		"visibility-calculator-ui-e2e": "apps/visibility-calculator-ui-e2e"
+		"visibility-calculator-ui": "apps/visibility-calculator-ui"
 	},
 	"$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
