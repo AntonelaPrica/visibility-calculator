@@ -23,7 +23,7 @@ export class ProjectsClassifierUtils {
 		const regexExp = /(private|public|protected)*(\s+)([a-zA-Z<>]+)(\s+)([a-zA-Z]+)(\()(.*)(\))(.*)(\{)/gm;
 		const foundMatches = [...fileData.matchAll(regexExp)];
 		foundMatches.forEach((match) => {
-			const encapsulationType = EncapsulationType[match[1]] || '';
+			const encapsulationType = EncapsulationType[match[1]] || EncapsulationType.none;
 			const returnType = match[3];
 			const methodName = match[5];
 			const input = match[7];
@@ -41,17 +41,20 @@ export class ProjectsClassifierUtils {
 
 	static getVariables(fileData: string): ProjectVariableClassificationDto[] {
 		const variables: ProjectVariableClassificationDto[] = [];
+		const specialKeywordsException = ['return'];
 		const regexExp = /(private|public|protected)*(\s+)([a-zA-Z<>]+)(\s+)(\w+)(;)/gm;
 		const foundMatches = [...fileData.matchAll(regexExp)];
 		foundMatches.forEach((match) => {
-			const encapsulationType = EncapsulationType[match[1]] || '';
+			const encapsulationType = EncapsulationType[match[1]] || EncapsulationType.none;
 			const variableType = match[3];
 			const variableName = match[5];
-			variables.push({
-				encapsulationType,
-				variableType,
-				variableName,
-			});
+			if (!specialKeywordsException.includes(variableType)) {
+				variables.push({
+					encapsulationType,
+					variableType,
+					variableName,
+				});
+			}
 		});
 		return variables;
 	}

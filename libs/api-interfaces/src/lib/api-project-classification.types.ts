@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { GraphDto } from './api-project-graph.types';
 
 export enum EncapsulationType {
 	public = 'public',
 	private = 'private',
 	protected = 'protected',
+	none = 'none',
 }
 
 export class ProjectMethodClassificationDto {
@@ -51,4 +53,18 @@ export class ProjectClassificationDto {
 
 	@ApiProperty({ type: ProjectDataClassificationDto })
 	dtos: ProjectDataClassificationDto[] = [];
+}
+
+export class ProjectStructureDto {
+	@ApiProperty({ type: ProjectClassificationDto })
+	classification: ProjectClassificationDto;
+	@ApiProperty({ type: GraphDto })
+	graph: GraphDto;
+
+	constructor(values: Partial<ProjectStructureDto>) {
+		if (values) {
+			this.classification = values.classification;
+			this.graph = values.graph;
+		}
+	}
 }

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateProjectDto, ProjectClassificationDto, ProjectDto } from '@ro-ubb/api-interfaces';
+import { CreateProjectDto, GraphDto, ProjectDto, ProjectStructureDto } from '@ro-ubb/api-interfaces';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectFeatureName } from './projects.config';
 
@@ -25,11 +25,19 @@ export class ProjectsController {
 		},
 	})
 	@ApiOkResponse({
-		description: 'The classification of a project.',
-		type: ProjectClassificationDto,
+		description: 'The approximate structure of a project.',
+		type: ProjectStructureDto,
 	})
-	async parseProject(@UploadedFile() file): Promise<ProjectClassificationDto> {
-		return this.projectService.parseProjectClassification(file);
+	async parseProject(@UploadedFile() file): Promise<ProjectStructureDto> {
+		return this.projectService.getProjectClassification(file);
+	}
+
+	@Get('graph/:id')
+	@ApiOkResponse({
+		type: GraphDto,
+	})
+	async getGraphById(@Param('id') id: string): Promise<GraphDto> {
+		return this.projectService.getGraphById(id);
 	}
 
 	@Get(':id')
@@ -49,6 +57,9 @@ export class ProjectsController {
 	}
 
 	@Post()
+	@ApiBody({
+		type: CreateProjectDto,
+	})
 	@ApiOkResponse({
 		type: ProjectDto,
 	})

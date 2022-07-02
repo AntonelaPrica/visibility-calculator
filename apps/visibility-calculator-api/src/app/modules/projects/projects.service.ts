@@ -1,45 +1,83 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import * as AdmZip from 'adm-zip';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from './entities/project.entity';
 import { Repository } from 'typeorm';
-import { ProjectsClassifierUtils } from './projects-classifier.utils';
-import { CreateProjectDto, ProjectClassificationDto, ProjectDto } from '@ro-ubb/api-interfaces';
-import { isNil } from '@nestjs/common/utils/shared.utils';
+import { ProjectsClassifierUtils } from './utils/projects-classifier.utils';
+import {
+	CreateProjectDto,
+	GraphDto,
+	ProjectClassificationDto,
+	ProjectDto,
+	ProjectStructureDto,
+} from '@ro-ubb/api-interfaces';
 import { ProjectsMappers } from './projects.mappers';
+import { ProjectGraphUtils } from './utils/project-graph.utils';
+import { GraphEntity } from './entities/graph.entity';
+import { NodeEntity } from './entities/node.entity';
 
 @Injectable()
 export class ProjectsService {
 	constructor(
 		@InjectRepository(ProjectEntity)
-		private projectEntityRepository: Repository<ProjectEntity>
+		private projectEntityRepository: Repository<ProjectEntity>,
+		@InjectRepository(GraphEntity)
+		private graphEntityRepository: Repository<GraphEntity>,
+		@InjectRepository(NodeEntity)
+		private nodeEntityRepository: Repository<NodeEntity>
 	) {}
 
 	async getById(id: string): Promise<ProjectDto> {
 		let foundProject: ProjectEntity = null;
 		try {
-			foundProject = await this.projectEntityRepository.findOneBy({ id });
+			foundProject = await this.projectEntityRepository.findOne({ where: { id }, relations: ['graph'] });
 		} catch (error) {
+			Logger.error(`ProjectsService.getById ${error}`);
 			throw new NotFoundException(`The project ${id} could not be found.`);
 		}
 		return ProjectsMappers.mapToProjectDto(foundProject);
 	}
 
+	async getGraphById(id: string): Promise<GraphDto> {
+		try {
+			const graph = await this.graphEntityRepository.findOne({ where: { id }, relations: ['nodes'] });
+			Logger.log(graph);
+			return ProjectsMappers.mapToGraphDto(graph);
+		} catch (error) {
+			Logger.error(`ProjectsService.saveProject ${error}`);
+			throw new NotFoundException(`The graph ${id} could not be found.`);
+		}
+	}
+
 	async getAll(): Promise<ProjectDto[]> {
-		const foundProjects = await this.projectEntityRepository.find();
+		const foundProjects = await this.projectEntityRepository.find({ relations: ['graph'] });
 		return foundProjects.map((project) => ProjectsMappers.mapToProjectDto(project));
 	}
 
 	async saveProject(newProject: CreateProjectDto): Promise<ProjectDto> {
-		const entity = new ProjectEntity({ name: newProject.name });
-		const savedProject: ProjectEntity = await this.projectEntityRepository.save(entity);
-		if (isNil(savedProject)) {
-			throw new BadRequestException('The projects could not be saved.');
+		try {
+			const initialGraph = new GraphEntity({ id: newProject.graph.id });
+			const savedGraph = await this.graphEntityRepository.save(initialGraph);
+
+			const initialNodes = newProject.graph.nodes.map((node) => ProjectsMappers.mapToNodeEntity(node, savedGraph));
+			await this.nodeEntityRepository.save(initialNodes);
+
+			const entity = new ProjectEntity({ name: newProject.name, graph: savedGraph });
+			const savedProject: ProjectEntity = await this.projectEntityRepository.save(entity);
+			return ProjectsMappers.mapToProjectDto(savedProject);
+		} catch (error) {
+			Logger.error(`ProjectsService.saveProject ${error}`);
+			throw new BadRequestException('The project could not be saved due to malformed data.');
 		}
-		return ProjectsMappers.mapToProjectDto(savedProject);
 	}
 
-	async parseProjectClassification(file): Promise<ProjectClassificationDto> {
+	async getProjectClassification(file): Promise<ProjectStructureDto> {
+		const projectClassification = await this.parseProjectClassification(file);
+		const partialGraph = ProjectGraphUtils.parseClassificationToGraph(projectClassification);
+		return new ProjectStructureDto({ graph: partialGraph, classification: projectClassification });
+	}
+
+	private async parseProjectClassification(file): Promise<ProjectClassificationDto> {
 		const projectClassification = new ProjectClassificationDto();
 
 		try {
@@ -71,7 +109,8 @@ export class ProjectsService {
 					});
 				}
 			}
-		} catch (e) {
+		} catch (error) {
+			Logger.error(`ProjectsService.parseProjectClassification ${error}`);
 			throw new BadRequestException('The data could not be parsed.');
 		}
 		return projectClassification;
