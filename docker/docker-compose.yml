@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  visibility-db:
+    image: "postgres"
+    environment:
+      - POSTGRES_USER=visibilityuser
+      - POSTGRES_PASSWORD=visibilitypass
+      - POSTGRES_DB=visibilitydb
+    ports:
+      - 5434:5432
+    volumes:
+      - visbility-db-volume:/var/lib/postgresql/data
+# Names our volume
+volumes:
+  visbility-db-volume:

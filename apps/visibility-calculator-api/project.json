@@ -1,0 +1,52 @@
+{
+  "root": "apps/visibility-calculator-api",
+  "sourceRoot": "apps/visibility-calculator-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/visibility-calculator-api",
+        "main": "apps/visibility-calculator-api/src/main.ts",
+        "tsConfig": "apps/visibility-calculator-api/tsconfig.app.json",
+        "assets": ["apps/visibility-calculator-api/src/assets"]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/visibility-calculator-api/src/environments/environment.ts",
+              "with": "apps/visibility-calculator-api/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:node",
+      "options": {
+        "buildTarget": "visibility-calculator-api:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/visibility-calculator-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/visibility-calculator-api"],
+      "options": {
+        "jestConfig": "apps/visibility-calculator-api/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
