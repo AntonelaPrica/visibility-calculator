@@ -1,0 +1,28 @@
+{
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
+	"sourceRoot": "apps/visibility-calculator-ui-e2e/src",
+	"projectType": "application",
+	"targets": {
+		"e2e": {
+			"executor": "@nrwl/cypress:cypress",
+			"options": {
+				"cypressConfig": "apps/visibility-calculator-ui-e2e/cypress.json",
+				"devServerTarget": "visibility-calculator-ui:serve:development"
+			},
+			"configurations": {
+				"production": {
+					"devServerTarget": "visibility-calculator-ui:serve:production"
+				}
+			}
+		},
+		"lint": {
+			"executor": "@nrwl/linter:eslint",
+			"outputs": ["{options.outputFile}"],
+			"options": {
+				"lintFilePatterns": ["apps/visibility-calculator-ui-e2e/**/*.{js,ts}"]
+			}
+		}
+	},
+	"tags": [],
+	"implicitDependencies": ["visibility-calculator-ui"]
+}

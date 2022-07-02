@@ -1,5 +1,5 @@
 {
-	"root": "libs/api-interfaces",
+	"$schema": "../../node_modules/nx/schemas/project-schema.json",
 	"sourceRoot": "libs/api-interfaces/src",
 	"targets": {
 		"lint": {
@@ -13,7 +13,7 @@
 			"executor": "@nrwl/jest:jest",
 			"outputs": ["coverage/libs/api-interfaces"],
 			"options": {
-				"jestConfig": "libs/api-interfaces/jest.config.js",
+				"jestConfig": "libs/api-interfaces/jest.config.ts",
 				"passWithNoTests": true
 			}
 		}

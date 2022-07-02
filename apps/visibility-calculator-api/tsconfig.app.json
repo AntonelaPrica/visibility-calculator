@@ -1,15 +1,12 @@
 {
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "module": "commonjs",
-    "types": ["node"],
-    "emitDecoratorMetadata": true,
-    "target": "es2015"
-  },
-  "exclude": ["**/*.spec.ts", "**/*.test.ts"],
-  "include": [
-    "**/*.ts",
-    "../../node_modules/@nrwl/node/src/executors/node/node-with-require-overrides.d.ts"
-  ]
+	"extends": "./tsconfig.json",
+	"compilerOptions": {
+		"outDir": "../../dist/out-tsc",
+		"module": "commonjs",
+		"types": ["node"],
+		"emitDecoratorMetadata": true,
+		"target": "es2015"
+	},
+	"exclude": ["**/*.spec.ts", "**/*.test.ts", "jest.config.ts"],
+	"include": ["**/*.ts", "../../node_modules/@nrwl/node/src/executors/node/node-with-require-overrides.d.ts"]
 }

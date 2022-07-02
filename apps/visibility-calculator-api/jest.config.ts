@@ -1,5 +1,6 @@
-module.exports = {
-	displayName: 'api-interfaces',
+/* eslint-disable */
+export default {
+	displayName: 'visibility-calculator-api',
 	preset: '../../jest.preset.js',
 	globals: {
 		'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
 		'^.+\\.[tj]s$': 'ts-jest',
 	},
 	moduleFileExtensions: ['ts', 'js', 'html'],
-	coverageDirectory: '../../coverage/libs/api-interfaces',
+	coverageDirectory: '../../coverage/apps/visibility-calculator-api',
 };
