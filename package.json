@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start:visibility-calculator-api": "nx serve --project=visibility-calculator-api",
+    "start:api": "nx serve --project=visibility-calculator-api",
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test"
