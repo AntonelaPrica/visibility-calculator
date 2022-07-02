@@ -1,1 +1,1 @@
-export const ProjectFeatureName = 'projects';
+export const ProjectFeatureName = 'project';
