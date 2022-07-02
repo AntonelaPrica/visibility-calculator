@@ -38,10 +38,9 @@ export class ProjectGraphUtils {
 					name: entityField.variableName,
 					type: NodeTypeEnum.FieldEntity,
 					incomingEdges: [entityId],
-					outgoingEdges: [entityId],
+					outgoingEdges: [],
 				});
 				nodes.get(entityId).incomingEdges.push(entityFieldId);
-				nodes.get(entityId).outgoingEdges.push(entityFieldId);
 			});
 		});
 
@@ -55,6 +54,15 @@ export class ProjectGraphUtils {
 				outgoingEdges: [],
 			});
 			controller.methods?.forEach((controllerMethod) => {
+				const controllerMethodId = uuidv4();
+				nodes.set(controllerMethodId, {
+					id: controllerMethodId,
+					name: controllerMethod.methodName,
+					type: NodeTypeEnum.ControllerMethod,
+					incomingEdges: [controllerId],
+					outgoingEdges: [],
+				});
+
 				const regexExp = /([a-zA-Z]*<)*([a-zA-Z1-9]+)(>)*/gm;
 				const foundMatches = [...controllerMethod.returnType.matchAll(regexExp)];
 				const curatedReturnType = foundMatches[0][2];
@@ -66,8 +74,8 @@ export class ProjectGraphUtils {
 				const dtosKeys = Array.from(dtosMap.keys());
 				const foundDtoKey = dtosKeys.find((dtoKey) => dtosMap.get(dtoKey).name.includes(curatedReturnType));
 				if (foundDtoKey) {
-					nodes.get(foundDtoKey).incomingEdges.push(controllerId);
-					nodes.get(controllerId).outgoingEdges.push(foundDtoKey);
+					nodes.get(foundDtoKey).incomingEdges.push(controllerMethodId);
+					nodes.get(controllerMethodId).outgoingEdges.push(foundDtoKey);
 				}
 			});
 		});

@@ -38,14 +38,14 @@ export class ProjectsService {
 		return ProjectsMappers.mapToProjectDto(foundProject);
 	}
 
-	async getGraphById(id: string): Promise<GraphDto> {
+	async getGraphByProjectId(projectId: string): Promise<GraphDto> {
 		try {
-			const graph = await this.graphEntityRepository.findOne({ where: { id }, relations: ['nodes'] });
-			Logger.log(graph);
+			const project = await this.getById(projectId);
+			const graph = await this.graphEntityRepository.findOne({ where: { id: project.graph.id }, relations: ['nodes'] });
 			return ProjectsMappers.mapToGraphDto(graph);
 		} catch (error) {
 			Logger.error(`ProjectsService.saveProject ${error}`);
-			throw new NotFoundException(`The graph ${id} could not be found.`);
+			throw new NotFoundException(`The graph of project ${projectId} could not be found.`);
 		}
 	}
 
@@ -72,12 +72,12 @@ export class ProjectsService {
 	}
 
 	async getProjectClassification(file): Promise<ProjectStructureDto> {
-		const projectClassification = await this.parseProjectClassification(file);
+		const projectClassification = await ProjectsService.parseProjectClassification(file);
 		const partialGraph = ProjectGraphUtils.parseClassificationToGraph(projectClassification);
 		return new ProjectStructureDto({ graph: partialGraph, classification: projectClassification });
 	}
 
-	private async parseProjectClassification(file): Promise<ProjectClassificationDto> {
+	private static async parseProjectClassification(file): Promise<ProjectClassificationDto> {
 		const projectClassification = new ProjectClassificationDto();
 
 		try {

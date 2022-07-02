@@ -29,3 +29,42 @@ export class CreateProjectDto {
 	@ApiProperty({ type: GraphDto })
 	graph: GraphDto;
 }
+
+export class FieldVisibilityDto {
+	@ApiProperty()
+	id: string;
+
+	@ApiProperty()
+	fieldName: string;
+
+	@ApiProperty()
+	visibility: number;
+
+	constructor(values: Partial<FieldVisibilityDto>) {
+		if (values) {
+			this.id = values.id;
+			this.fieldName = values.fieldName;
+			this.visibility = values.visibility;
+		}
+	}
+}
+
+export class EntityVisibilityDto {
+	@ApiProperty()
+	id: string;
+
+	@ApiProperty()
+	entityName: string;
+
+	@ApiProperty({ type: [FieldVisibilityDto] })
+	fieldsVisibility: FieldVisibilityDto[];
+
+	constructor(values: Partial<EntityVisibilityDto>) {
+		if (values) {
+			this.id = values.id;
+			this.entityName = values.entityName;
+			this.fieldsVisibility =
+				values.fieldsVisibility?.map((fieldVisibility) => new FieldVisibilityDto({ ...fieldVisibility })) || [];
+		}
+	}
+}

@@ -1,14 +1,24 @@
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CreateProjectDto, GraphDto, ProjectDto, ProjectStructureDto } from '@ro-ubb/api-interfaces';
+import {
+	CreateProjectDto,
+	EntityVisibilityDto,
+	GraphDto,
+	ProjectDto,
+	ProjectStructureDto,
+} from '@ro-ubb/api-interfaces';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectFeatureName } from './projects.config';
+import { ProjectsVisibilityService } from './projects-visibility.service';
 
 @ApiTags(ProjectFeatureName)
 @Controller(ProjectFeatureName)
 export class ProjectsController {
-	constructor(private readonly projectService: ProjectsService) {}
+	constructor(
+		private readonly projectService: ProjectsService,
+		private readonly projectsVisibilityService: ProjectsVisibilityService
+	) {}
 
 	@Post('parse')
 	@UseInterceptors(FileInterceptor('file', { dest: './upload' }))
@@ -32,12 +42,20 @@ export class ProjectsController {
 		return this.projectService.getProjectClassification(file);
 	}
 
-	@Get('graph/:id')
+	@Get(':id/graph')
 	@ApiOkResponse({
 		type: GraphDto,
 	})
-	async getGraphById(@Param('id') id: string): Promise<GraphDto> {
-		return this.projectService.getGraphById(id);
+	async getProjectGraph(@Param('id') projectId: string): Promise<GraphDto> {
+		return this.projectService.getGraphByProjectId(projectId);
+	}
+
+	@Get(':id/visibility')
+	@ApiOkResponse({
+		type: [EntityVisibilityDto],
+	})
+	async getProjectVisibility(@Param('id') projectId: string): Promise<EntityVisibilityDto[]> {
+		return this.projectsVisibilityService.calculateVisibility(projectId);
 	}
 
 	@Get(':id')
