@@ -1,6 +1,6 @@
 {
-  "name": "ro-ubb",
-  "version": "0.0.0",
+  "name": "visibility-calculator",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "start:visibility-calculator-api": "nx serve --project=visibility-calculator-api",
