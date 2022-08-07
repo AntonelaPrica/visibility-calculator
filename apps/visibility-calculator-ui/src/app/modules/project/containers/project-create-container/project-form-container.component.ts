@@ -7,6 +7,8 @@ import {
 	UploadFileStepPayload,
 } from '../../types/project-form.types';
 import { ProjectService } from '../../services/project.service';
+import { ProjectStructureDto } from '@ro-ubb/api-interfaces';
+import { cloneDeep as _cloneDeep } from 'lodash';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
@@ -41,6 +43,7 @@ import { ProjectService } from '../../services/project.service';
 export class ProjectFormContainerComponent implements OnInit {
 	formGroup: FormGroup = null;
 	availableSteps = ProjectFormStep;
+	originalProjectStructure: ProjectStructureDto;
 
 	constructor(private projectService: ProjectService) {}
 
@@ -57,7 +60,8 @@ export class ProjectFormContainerComponent implements OnInit {
 	}
 
 	async handleUploadFileStep(payload: UploadFileStepPayload): Promise<void> {
-		const structure = await this.projectService.parseProject(payload.file);
-		console.log(structure);
+		this.originalProjectStructure = await this.projectService.parseProject(payload.file);
+		const clonedProjectStructure = _cloneDeep(this.originalProjectStructure);
+		console.log(clonedProjectStructure);
 	}
 }
