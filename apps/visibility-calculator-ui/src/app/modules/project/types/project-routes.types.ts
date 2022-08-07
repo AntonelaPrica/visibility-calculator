@@ -3,3 +3,5 @@ export enum ProjectRoutesTypes {
 	View = 'view',
 	LandingPage = 'home',
 }
+
+export const ProjectRouteId = 'id';

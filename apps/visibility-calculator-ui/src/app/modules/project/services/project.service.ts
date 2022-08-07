@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
+import { ProjectDto, ProjectStructureDto } from '@ro-ubb/api-interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
 	constructor(private http: HttpClient) {}
 
-	uploadFile(file: File): Observable<any> {
+	uploadFile(file: File): Promise<ProjectStructureDto> {
 		const formData = new FormData();
 		formData.append('file', file);
-		return this.http.post('api/files', formData);
+		return firstValueFrom(this.http.post<ProjectStructureDto>('api/files', formData));
+	}
+
+	getProjects(): Promise<ProjectDto[]> {
+		return firstValueFrom(this.http.get<ProjectDto[]>('api/project'));
 	}
 }

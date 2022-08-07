@@ -16,11 +16,14 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
 	declarations: [],
 	imports: [
 		CommonModule,
+		HttpClientModule,
 		ReactiveFormsModule,
 		MatAutocompleteModule,
 		MatButtonModule,
@@ -37,10 +40,12 @@ import { MatStepperModule } from '@angular/material/stepper';
 		MatTabsModule,
 		MatTreeModule,
 		MatStepperModule,
+		MatGridListModule,
 	],
 	providers: [],
 	exports: [
 		CommonModule,
+		HttpClientModule,
 		ReactiveFormsModule,
 		MatAutocompleteModule,
 		MatButtonModule,
@@ -56,6 +61,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 		MatTabsModule,
 		MatTreeModule,
 		MatStepperModule,
+		MatGridListModule,
 	],
 })
 export class SharedModule {}

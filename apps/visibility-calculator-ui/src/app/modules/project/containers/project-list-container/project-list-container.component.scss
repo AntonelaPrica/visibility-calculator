@@ -1,0 +1,15 @@
+.flex-end-container{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.small-margin{
+  margin: 1%;
+}
+
+
+.grid-container {
+  display: grid;
+  column-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+}

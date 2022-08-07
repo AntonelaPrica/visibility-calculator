@@ -1,6 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { ProjectRoutesTypes } from './types/project-routes.types';
+import { ProjectRouteId, ProjectRoutesTypes } from './types/project-routes.types';
 import { ProjectLandingPageComponent } from './pages/project-landing-page.component';
 import { ProjectCreatePageComponent } from './pages/project-create-page.component';
 import { ProjectViewPageComponent } from './pages/project-view-page.component';
@@ -22,7 +22,7 @@ const routes: Routes = [
 		canActivate: [],
 	},
 	{
-		path: `${ProjectRoutesTypes.View}/:id`,
+		path: `${ProjectRoutesTypes.View}/:${ProjectRouteId}`,
 		component: ProjectViewPageComponent,
 		canActivate: [],
 	},
