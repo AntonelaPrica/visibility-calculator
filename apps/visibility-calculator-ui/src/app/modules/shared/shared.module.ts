@@ -18,6 +18,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { HttpClientModule } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
 	declarations: [],
@@ -34,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
 		MatFormFieldModule,
 		MatInputModule,
 		MatListModule,
+		MatIconModule,
 		MatProgressSpinnerModule,
 		MatSelectModule,
 		MatToolbarModule,
@@ -55,6 +57,8 @@ import { HttpClientModule } from '@angular/common/http';
 		MatDividerModule,
 		MatFormFieldModule,
 		MatInputModule,
+		MatListModule,
+		MatIconModule,
 		MatProgressSpinnerModule,
 		MatSelectModule,
 		MatToolbarModule,

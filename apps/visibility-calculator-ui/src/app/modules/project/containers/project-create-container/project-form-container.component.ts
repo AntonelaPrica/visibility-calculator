@@ -1,12 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+	ProjectForm,
+	ProjectFormStep,
+	ProjectFormStepPayloadUnion,
+	UploadFileStepPayload,
+} from '../../types/project-form.types';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
-	template: `<mat-vertical-stepper [linear]="true">
+	template: ` <mat-stepper [linear]="true" *ngIf="formGroup">
 		<mat-step>
 			<ng-template matStepLabel>Upload Project</ng-template>
 			<button mat-button matStepperNext>Next</button>
-			<ro-ubb-project-upload></ro-ubb-project-upload>
+			<ro-ubb-project-upload
+				[form]="formGroup"
+				controlName="projectFile"
+				(fileUpload)="handleStep($event)"
+			></ro-ubb-project-upload>
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Verifiy Structure</ng-template>
@@ -23,7 +35,29 @@ import { Component } from '@angular/core';
 			<button mat-raised-button color="primary">Submit</button>
 			<ro-ubb-project-review></ro-ubb-project-review>
 		</mat-step>
-	</mat-vertical-stepper>`,
+	</mat-stepper>`,
 	styleUrls: [],
 })
-export class ProjectFormContainerComponent {}
+export class ProjectFormContainerComponent implements OnInit {
+	formGroup: FormGroup = null;
+	availableSteps = ProjectFormStep;
+
+	constructor(private projectService: ProjectService) {}
+
+	ngOnInit(): void {
+		this.formGroup = new FormGroup<ProjectForm>({
+			projectFile: new FormControl(null, [Validators.required]),
+		});
+	}
+
+	async handleStep(payload: ProjectFormStepPayloadUnion): Promise<void> {
+		if (payload.type === ProjectFormStep.UploadFile) {
+			await this.handleUploadFileStep(payload);
+		}
+	}
+
+	async handleUploadFileStep(payload: UploadFileStepPayload): Promise<void> {
+		const structure = await this.projectService.parseProject(payload.file);
+		console.log(structure);
+	}
+}

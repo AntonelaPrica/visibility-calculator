@@ -7,13 +7,13 @@ import { ProjectDto, ProjectStructureDto } from '@ro-ubb/api-interfaces';
 export class ProjectService {
 	constructor(private http: HttpClient) {}
 
-	uploadFile(file: File): Promise<ProjectStructureDto> {
+	async parseProject(file: File): Promise<ProjectStructureDto> {
 		const formData = new FormData();
 		formData.append('file', file);
-		return firstValueFrom(this.http.post<ProjectStructureDto>('api/files', formData));
+		return firstValueFrom(this.http.post<ProjectStructureDto>('api/project/parse', formData));
 	}
 
-	getProjects(): Promise<ProjectDto[]> {
+	async getProjects(): Promise<ProjectDto[]> {
 		return firstValueFrom(this.http.get<ProjectDto[]>('api/project'));
 	}
 }
