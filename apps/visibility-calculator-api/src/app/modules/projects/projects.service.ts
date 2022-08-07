@@ -73,8 +73,8 @@ export class ProjectsService {
 
 	async getProjectClassification(file): Promise<ProjectStructureDto> {
 		const projectClassification = await ProjectsService.parseProjectClassification(file);
-		const partialGraph = ProjectGraphUtils.parseClassificationToGraph(projectClassification);
-		return new ProjectStructureDto({ graph: partialGraph, classification: projectClassification });
+		const { graph, classification } = ProjectGraphUtils.parseClassificationToGraph(projectClassification);
+		return new ProjectStructureDto({ graph, classification });
 	}
 
 	private static async parseProjectClassification(file): Promise<ProjectClassificationDto> {

@@ -9,6 +9,9 @@ export enum EncapsulationType {
 }
 
 export class ProjectMethodClassificationDto {
+	@ApiProperty({ nullable: true })
+	id?: string;
+
 	@ApiProperty({ enum: EncapsulationType })
 	encapsulationType?: EncapsulationType;
 
@@ -23,6 +26,9 @@ export class ProjectMethodClassificationDto {
 }
 
 export class ProjectVariableClassificationDto {
+	@ApiProperty({ nullable: true })
+	id?: string;
+
 	@ApiProperty({ enum: EncapsulationType })
 	encapsulationType?: EncapsulationType;
 
@@ -34,6 +40,9 @@ export class ProjectVariableClassificationDto {
 }
 
 export class ProjectDataClassificationDto {
+	@ApiProperty({ nullable: true })
+	id?: string;
+
 	@ApiProperty()
 	name: string;
 

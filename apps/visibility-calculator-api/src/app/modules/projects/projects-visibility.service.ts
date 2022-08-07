@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { EntityVisibilityDto, FieldVisibilityDto, NodeDto, NodeTypeEnum } from '@ro-ubb/api-interfaces';
 import { NodeEntity } from './entities/node.entity';
-import { isNil } from '@nestjs/common/utils/shared.utils';
+import { isNil as _isNil } from 'lodash';
 
 @Injectable()
 export class ProjectsVisibilityService {
@@ -30,7 +30,7 @@ export class ProjectsVisibilityService {
 	}
 
 	private getNodeVisibility(node: NodeEntity, nodes: Map<string, NodeDto>): number {
-		if (isNil(node.incomingEdges) || node.incomingEdges.length === 0) {
+		if (_isNil(node.incomingEdges) || node.incomingEdges.length === 0) {
 			return 0;
 		}
 		if (node.type === NodeTypeEnum.ControllerMethod) {

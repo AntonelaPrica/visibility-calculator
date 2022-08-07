@@ -2,14 +2,19 @@ import { NodeTypeEnum, ProjectClassificationDto, ProjectDataClassificationDto } 
 import { GraphEntity } from '../entities/graph.entity';
 import { NodeEntity } from '../entities/node.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { cloneDeep as _cloneDeep } from 'lodash';
 
 export class ProjectGraphUtils {
-	static parseClassificationToGraph(classification: ProjectClassificationDto): GraphEntity {
+	static parseClassificationToGraph(classification: ProjectClassificationDto): {
+		graph: GraphEntity;
+		classification: ProjectClassificationDto;
+	} {
+		const clonedClassification = _cloneDeep(classification); // classification which will be enhanced with ids
 		const graph = new GraphEntity({ id: uuidv4() });
 		const nodes = new Map<string, NodeEntity>(); // name -> NodeEntity
 		const dtosMap = new Map<string, ProjectDataClassificationDto>();
 
-		classification.dtos?.forEach((dto) => {
+		clonedClassification.dtos?.forEach((dto) => {
 			const dtoId = uuidv4();
 			dtosMap.set(dtoId, dto);
 			nodes.set(dtoId, {
@@ -19,9 +24,10 @@ export class ProjectGraphUtils {
 				incomingEdges: [],
 				outgoingEdges: [],
 			});
+			dto.id = dtoId;
 		});
 
-		classification.entities?.forEach((entity) => {
+		clonedClassification.entities?.forEach((entity) => {
 			const entityId = uuidv4();
 			nodes.set(entityId, {
 				id: entityId,
@@ -41,10 +47,13 @@ export class ProjectGraphUtils {
 					outgoingEdges: [],
 				});
 				nodes.get(entityId).incomingEdges.push(entityFieldId);
+				entityField.id = entityFieldId;
 			});
+
+			entity.id = entityId;
 		});
 
-		classification.controllers?.forEach((controller) => {
+		clonedClassification.controllers?.forEach((controller) => {
 			const controllerId = uuidv4();
 			nodes.set(controllerId, {
 				id: controllerId,
@@ -77,10 +86,13 @@ export class ProjectGraphUtils {
 					nodes.get(foundDtoKey).incomingEdges.push(controllerMethodId);
 					nodes.get(controllerMethodId).outgoingEdges.push(foundDtoKey);
 				}
+				controllerMethod.id = controllerMethodId;
 			});
+
+			controller.id = controllerId;
 		});
 
 		graph.nodes = Array.from(nodes.values());
-		return graph;
+		return { graph, classification: clonedClassification };
 	}
 }
