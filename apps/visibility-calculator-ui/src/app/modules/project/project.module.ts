@@ -13,6 +13,7 @@ import { ProjectVerifyStructureComponent } from './containers/project-create-con
 import { ProjectDescriptionTabComponent } from './containers/project-view-container/project-description-tab/project-description-tab.component';
 import { ProjectVisibilityTabComponent } from './containers/project-view-container/project-visibility-tab/project-visibility-tab.component';
 import { ProjectViewContainerComponent } from './containers/project-view-container/project-view-container.component';
+import { ProjectClassificationTreeStructureComponent } from './containers/project-create-container/project-verify-structure/project-classification-tree-structure/project-classification-tree-structure.component';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { ProjectViewContainerComponent } from './containers/project-view-contain
 		ProjectDescriptionTabComponent,
 		ProjectVisibilityTabComponent,
 		ProjectViewContainerComponent,
+		ProjectClassificationTreeStructureComponent,
 	],
 	imports: [SharedModule, ProjectRoutingModule],
 	providers: [],
