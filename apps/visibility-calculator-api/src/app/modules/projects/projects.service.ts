@@ -4,17 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProjectEntity } from './entities/project.entity';
 import { Repository } from 'typeorm';
 import { ProjectsClassifierUtils } from './utils/projects-classifier.utils';
-import {
-	CreateProjectDto,
-	GraphDto,
-	ProjectClassificationDto,
-	ProjectDto,
-	ProjectStructureDto,
-} from '@ro-ubb/api-interfaces';
 import { ProjectsMappers } from './projects.mappers';
 import { ProjectGraphUtils } from './utils/project-graph.utils';
 import { GraphEntity } from './entities/graph.entity';
 import { NodeEntity } from './entities/node.entity';
+import { CreateProjectDto, ProjectDto } from './dtos/projects.dto';
+import { GraphDto } from './dtos/projects-graph.dto';
+import { ProjectClassificationDto, ProjectStructureDto } from './dtos/projects-classification.dto';
 
 @Injectable()
 export class ProjectsService {

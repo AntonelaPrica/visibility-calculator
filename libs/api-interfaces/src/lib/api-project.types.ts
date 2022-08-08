@@ -1,19 +1,14 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger';
-import { GraphDto } from './api-project-graph.types';
+import { GraphDtoInterface } from './api-project-graph.types';
+import { OmitType } from '@nestjs/swagger';
 
-export class GraphWithoutNode extends OmitType(GraphDto, ['nodes'] as const) {}
+export class GraphWithoutNode extends OmitType(GraphDtoInterface, ['nodes'] as const) {}
 
-export class ProjectDto {
-	@ApiProperty()
+export class ProjectDtoInterface {
 	id: string;
-
-	@ApiProperty()
 	name: string;
-
-	@ApiProperty({ type: GraphWithoutNode })
 	graph: GraphWithoutNode;
 
-	constructor(values: Partial<ProjectDto>) {
+	constructor(values: Partial<ProjectDtoInterface>) {
 		if (values) {
 			this.id = values.id;
 			this.name = values.name;
@@ -22,25 +17,17 @@ export class ProjectDto {
 	}
 }
 
-export class CreateProjectDto {
-	@ApiProperty()
+export class CreateProjectDtoInterface {
 	name: string;
-
-	@ApiProperty({ type: GraphDto })
-	graph: GraphDto;
+	graph: GraphDtoInterface;
 }
 
-export class FieldVisibilityDto {
-	@ApiProperty()
+export class FieldVisibilityDtoInterface {
 	id: string;
-
-	@ApiProperty()
 	fieldName: string;
-
-	@ApiProperty()
 	visibility: number;
 
-	constructor(values: Partial<FieldVisibilityDto>) {
+	constructor(values: Partial<FieldVisibilityDtoInterface>) {
 		if (values) {
 			this.id = values.id;
 			this.fieldName = values.fieldName;
@@ -49,22 +36,18 @@ export class FieldVisibilityDto {
 	}
 }
 
-export class EntityVisibilityDto {
-	@ApiProperty()
+export class EntityVisibilityDtoInterface {
 	id: string;
-
-	@ApiProperty()
 	entityName: string;
+	fieldsVisibility: FieldVisibilityDtoInterface[];
 
-	@ApiProperty({ type: [FieldVisibilityDto] })
-	fieldsVisibility: FieldVisibilityDto[];
-
-	constructor(values: Partial<EntityVisibilityDto>) {
+	constructor(values: Partial<EntityVisibilityDtoInterface>) {
 		if (values) {
 			this.id = values.id;
 			this.entityName = values.entityName;
 			this.fieldsVisibility =
-				values.fieldsVisibility?.map((fieldVisibility) => new FieldVisibilityDto({ ...fieldVisibility })) || [];
+				values.fieldsVisibility?.map((fieldVisibility) => new FieldVisibilityDtoInterface({ ...fieldVisibility })) ||
+				[];
 		}
 	}
 }

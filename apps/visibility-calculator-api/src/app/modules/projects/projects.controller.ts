@@ -1,16 +1,12 @@
 import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import {
-	CreateProjectDto,
-	EntityVisibilityDto,
-	GraphDto,
-	ProjectDto,
-	ProjectStructureDto,
-} from '@ro-ubb/api-interfaces';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectFeatureName } from './projects.config';
 import { ProjectsVisibilityService } from './projects-visibility.service';
+import { ProjectStructureDto } from './dtos/projects-classification.dto';
+import { GraphDto } from './dtos/projects-graph.dto';
+import { CreateProjectDto, EntityVisibilityDto, ProjectDto } from './dtos/projects.dto';
 
 @ApiTags(ProjectFeatureName)
 @Controller(ProjectFeatureName)

@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
-import { EntityVisibilityDto, FieldVisibilityDto, NodeDto, NodeTypeEnum } from '@ro-ubb/api-interfaces';
 import { NodeEntity } from './entities/node.entity';
 import { isNil as _isNil } from 'lodash';
+import { EntityVisibilityDto, FieldVisibilityDto } from './dtos/projects.dto';
+import { NodeDto } from './dtos/projects-graph.dto';
+import { NodeTypeEnum } from '@ro-ubb/api-interfaces';
 
 @Injectable()
 export class ProjectsVisibilityService {

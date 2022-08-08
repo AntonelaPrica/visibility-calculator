@@ -1,8 +1,5 @@
-import {
-	EncapsulationType,
-	ProjectMethodClassificationDto,
-	ProjectVariableClassificationDto,
-} from '@ro-ubb/api-interfaces';
+import { ProjectMethodClassificationDto, ProjectVariableClassificationDto } from '../dtos/projects-classification.dto';
+import { EncapsulationType } from '@ro-ubb/api-interfaces';
 
 export class ProjectsClassifierUtils {
 	static isController(fileData: string): boolean {

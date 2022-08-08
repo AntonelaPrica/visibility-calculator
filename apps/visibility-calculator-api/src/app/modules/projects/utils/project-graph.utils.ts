@@ -1,8 +1,9 @@
-import { NodeTypeEnum, ProjectClassificationDto, ProjectDataClassificationDto } from '@ro-ubb/api-interfaces';
 import { GraphEntity } from '../entities/graph.entity';
 import { NodeEntity } from '../entities/node.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { cloneDeep as _cloneDeep } from 'lodash';
+import { ProjectClassificationDto, ProjectDataClassificationDto } from '../dtos/projects-classification.dto';
+import { NodeTypeEnum } from '@ro-ubb/api-interfaces';
 
 export class ProjectGraphUtils {
 	static parseClassificationToGraph(classification: ProjectClassificationDto): {

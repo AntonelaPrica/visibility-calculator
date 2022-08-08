@@ -1,23 +1,14 @@
 import { NodeTypeEnum } from './node-type.enum';
-import { ApiProperty } from '@nestjs/swagger';
 
-export class NodeDto {
-	@ApiProperty()
+export class NodeDtoInterface {
 	id: string;
-
-	@ApiProperty()
 	name: string;
-
-	@ApiProperty()
 	outgoingEdges: string[];
-
-	@ApiProperty()
 	incomingEdges: string[];
 
-	@ApiProperty({ enum: NodeTypeEnum })
 	type: NodeTypeEnum;
 
-	constructor(values: Partial<NodeDto>) {
+	constructor(values: Partial<NodeDtoInterface>) {
 		if (values) {
 			this.id = values.id;
 			this.name = values.name;
@@ -28,17 +19,14 @@ export class NodeDto {
 	}
 }
 
-export class GraphDto {
-	@ApiProperty()
+export class GraphDtoInterface {
 	id: string;
+	nodes: NodeDtoInterface[];
 
-	@ApiProperty({ type: [NodeDto] })
-	nodes: NodeDto[];
-
-	constructor(values: Partial<GraphDto>) {
+	constructor(values: Partial<GraphDtoInterface>) {
 		if (values) {
 			this.id = values.id;
-			this.nodes = values.nodes?.map((node) => new NodeDto({ ...node })) || [];
+			this.nodes = values.nodes?.map((node) => new NodeDtoInterface({ ...node })) || [];
 		}
 	}
 }

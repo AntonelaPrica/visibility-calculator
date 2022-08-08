@@ -1,5 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { GraphDto } from './api-project-graph.types';
+import { GraphDtoInterface } from './api-project-graph.types';
 
 export enum EncapsulationType {
 	public = 'public',
@@ -8,69 +7,39 @@ export enum EncapsulationType {
 	none = 'none',
 }
 
-export class ProjectMethodClassificationDto {
-	@ApiProperty({ nullable: true })
+export class ProjectMethodClassificationDtoInterface {
 	id?: string;
-
-	@ApiProperty({ enum: EncapsulationType })
 	encapsulationType?: EncapsulationType;
-
-	@ApiProperty()
 	returnType: string;
-
-	@ApiProperty()
 	methodName: string;
-
-	@ApiProperty()
 	input: string;
 }
 
-export class ProjectVariableClassificationDto {
-	@ApiProperty({ nullable: true })
+export class ProjectVariableClassificationDtoInterface {
 	id?: string;
-
-	@ApiProperty({ enum: EncapsulationType })
 	encapsulationType?: EncapsulationType;
-
-	@ApiProperty()
 	variableType: string;
-
-	@ApiProperty()
 	variableName: string;
 }
 
-export class ProjectDataClassificationDto {
-	@ApiProperty({ nullable: true })
+export class ProjectDataClassificationDtoInterface {
 	id?: string;
-
-	@ApiProperty()
 	name: string;
-
-	@ApiProperty({ type: ProjectMethodClassificationDto })
-	methods?: ProjectMethodClassificationDto[];
-
-	@ApiProperty({ type: ProjectVariableClassificationDto })
-	variables?: ProjectVariableClassificationDto[];
+	methods?: ProjectMethodClassificationDtoInterface[];
+	variables?: ProjectVariableClassificationDtoInterface[];
 }
 
-export class ProjectClassificationDto {
-	@ApiProperty({ type: ProjectDataClassificationDto })
-	controllers: ProjectDataClassificationDto[] = [];
-
-	@ApiProperty({ type: ProjectDataClassificationDto })
-	entities: ProjectDataClassificationDto[] = [];
-
-	@ApiProperty({ type: ProjectDataClassificationDto })
-	dtos: ProjectDataClassificationDto[] = [];
+export class ProjectClassificationDtoInterface {
+	controllers: ProjectDataClassificationDtoInterface[] = [];
+	entities: ProjectDataClassificationDtoInterface[] = [];
+	dtos: ProjectDataClassificationDtoInterface[] = [];
 }
 
-export class ProjectStructureDto {
-	@ApiProperty({ type: ProjectClassificationDto })
-	classification: ProjectClassificationDto;
-	@ApiProperty({ type: GraphDto })
-	graph: GraphDto;
+export class ProjectStructureDtoInterface {
+	classification: ProjectClassificationDtoInterface;
+	graph: GraphDtoInterface;
 
-	constructor(values: Partial<ProjectStructureDto>) {
+	constructor(values: Partial<ProjectStructureDtoInterface>) {
 		if (values) {
 			this.classification = values.classification;
 			this.graph = values.graph;

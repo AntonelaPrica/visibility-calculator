@@ -7,7 +7,7 @@ import {
 	UploadFileStepPayload,
 } from '../../types/project-form.types';
 import { ProjectService } from '../../services/project.service';
-import { ProjectStructureDto } from '@ro-ubb/api-interfaces';
+
 import { cloneDeep as _cloneDeep } from 'lodash';
 
 @Component({
@@ -15,7 +15,11 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 	template: ` <mat-stepper [linear]="true" *ngIf="formGroup">
 		<mat-step>
 			<ng-template matStepLabel>Upload Project</ng-template>
-			<button mat-button matStepperNext>Next</button>
+			<div class="right-aligned">
+				<button mat-raised-button matStepperNext color="primary" [disabled]="!formGroup.get('projectFile').value">
+					Next
+				</button>
+			</div>
 			<ro-ubb-project-upload
 				[form]="formGroup"
 				controlName="projectFile"
@@ -24,12 +28,16 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Verifiy Structure</ng-template>
-			<button mat-button matStepperNext>Next</button>
+			<div class="right-aligned">
+				<button mat-raised-button matStepperNext color="primary">Next</button>
+			</div>
 			<ro-ubb-project-verifiy-structure></ro-ubb-project-verifiy-structure>
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Create Mappings</ng-template>
-			<button mat-button matStepperNext>Next</button>
+			<div class="right-aligned">
+				<button mat-raised-button matStepperNext color="primary">Next</button>
+			</div>
 			<ro-ubb-project-create-mappings></ro-ubb-project-create-mappings>
 		</mat-step>
 		<mat-step>
@@ -38,12 +46,12 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 			<ro-ubb-project-review></ro-ubb-project-review>
 		</mat-step>
 	</mat-stepper>`,
-	styleUrls: [],
+	styleUrls: ['project-form-container.component.scss'],
 })
 export class ProjectFormContainerComponent implements OnInit {
 	formGroup: FormGroup = null;
 	availableSteps = ProjectFormStep;
-	originalProjectStructure: ProjectStructureDto;
+	originalProjectStructure: any;
 
 	constructor(private projectService: ProjectService) {}
 

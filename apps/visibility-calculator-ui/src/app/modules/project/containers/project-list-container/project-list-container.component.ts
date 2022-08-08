@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectDto } from '@ro-ubb/api-interfaces';
+
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { AppRoutePaths } from '../../../../core/types/app-routes.types';
@@ -11,7 +11,7 @@ import { ProjectRoutesTypes } from '../../types/project-routes.types';
 	styleUrls: ['project-list-container.component.scss'],
 })
 export class ProjectListContainerComponent implements OnInit {
-	projects: ProjectDto[] = [];
+	projects: any[] = [];
 
 	constructor(private projectService: ProjectService, private router: Router) {}
 

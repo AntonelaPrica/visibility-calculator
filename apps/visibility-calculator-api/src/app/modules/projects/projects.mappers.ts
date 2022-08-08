@@ -1,7 +1,8 @@
 import { ProjectEntity } from './entities/project.entity';
-import { GraphDto, NodeDto, ProjectDto } from '@ro-ubb/api-interfaces';
 import { NodeEntity } from './entities/node.entity';
 import { GraphEntity } from './entities/graph.entity';
+import { ProjectDto } from './dtos/projects.dto';
+import { GraphDto, NodeDto } from './dtos/projects-graph.dto';
 
 export class ProjectsMappers {
 	static mapToProjectDto(projectEntity: ProjectEntity): ProjectDto {
