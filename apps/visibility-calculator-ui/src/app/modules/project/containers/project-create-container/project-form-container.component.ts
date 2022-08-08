@@ -31,7 +31,7 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 			<div class="right-aligned">
 				<button mat-raised-button matStepperNext color="primary">Next</button>
 			</div>
-			<ro-ubb-project-verifiy-structure></ro-ubb-project-verifiy-structure>
+			<ro-ubb-project-verifiy-structure [form]="formGroup"></ro-ubb-project-verifiy-structure>
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Create Mappings</ng-template>
@@ -58,6 +58,7 @@ export class ProjectFormContainerComponent implements OnInit {
 	ngOnInit(): void {
 		this.formGroup = new FormGroup<ProjectForm>({
 			projectFile: new FormControl(null, [Validators.required]),
+			projectStructure: new FormControl(null),
 		});
 	}
 
@@ -70,6 +71,7 @@ export class ProjectFormContainerComponent implements OnInit {
 	async handleUploadFileStep(payload: UploadFileStepPayload): Promise<void> {
 		this.originalProjectStructure = await this.projectService.parseProject(payload.file);
 		const clonedProjectStructure = _cloneDeep(this.originalProjectStructure);
-		console.log(clonedProjectStructure);
+
+		this.formGroup.patchValue({ projectStructure: clonedProjectStructure });
 	}
 }

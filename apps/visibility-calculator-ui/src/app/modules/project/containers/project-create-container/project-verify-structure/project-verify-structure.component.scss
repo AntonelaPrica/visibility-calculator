@@ -1,0 +1,6 @@
+.grid-container{
+  display: inline-grid;
+  grid-template-columns: auto auto auto;
+  gap: 50px 20px;
+  width: 33%;
+}
