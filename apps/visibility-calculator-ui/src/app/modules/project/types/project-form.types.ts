@@ -7,6 +7,7 @@ export interface ProjectForm {
 
 export enum ProjectFormStep {
 	UploadFile = 'UploadFile',
+	VerifyStructure = 'Verify Structure',
 }
 
 export class UploadFileStepPayload {
@@ -14,4 +15,9 @@ export class UploadFileStepPayload {
 	file: File;
 }
 
-export type ProjectFormStepPayloadUnion = UploadFileStepPayload;
+export class VerifyStructureStepPayload {
+	type: ProjectFormStep.VerifyStructure;
+	projectClassification: any;
+}
+
+export type ProjectFormStepPayloadUnion = UploadFileStepPayload | VerifyStructureStepPayload;

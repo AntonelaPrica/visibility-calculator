@@ -15,4 +15,8 @@ export class ProjectService {
 	async getProjects(): Promise<any[]> {
 		return firstValueFrom(this.http.get<any[]>('api/project'));
 	}
+
+	async getGraphFromClassification(projectClassification): Promise<any> {
+		return firstValueFrom(this.http.post<any>('api/project/graph', projectClassification));
+	}
 }

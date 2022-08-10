@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+	ChangeDetectionStrategy,
+	Component,
+	EventEmitter,
+	Input,
+	OnChanges,
+	Output,
+	SimpleChanges,
+} from '@angular/core';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { TreeNode } from '../../../../types/project-structure.types';
 import { NestedTreeControl } from '@angular/cdk/tree';
@@ -7,12 +15,12 @@ import { SelectionModel } from '@angular/cdk/collections';
 @Component({
 	selector: 'ro-ubb-project-classification-tree-structure',
 	template: ` <div *ngIf="this.dataSource">
-		<mat-tree [dataSource]="this.dataSource" [treeControl]="treeControl">
+		<mat-tree [dataSource]="this.dataSource" [treeControl]="treeControl" class="tree">
 			<mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
 				<mat-checkbox
 					class="checklist-leaf-node"
 					[checked]="checklistSelection.isSelected(node)"
-					(change)="checklistSelection.toggle(node)"
+					(change)="itemSelectionToggle(node)"
 					>{{ node.name }}</mat-checkbox
 				>
 			</mat-tree-node>
@@ -27,7 +35,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 					<mat-checkbox
 						[checked]="descendantsAllSelected(node)"
 						[indeterminate]="descendantsPartiallySelected(node)"
-						(change)="todoItemSelectionToggle(node)"
+						(change)="nestedItemSelectionToggle(node)"
 						>{{ node.name }}</mat-checkbox
 					>
 				</div>
@@ -40,8 +48,11 @@ import { SelectionModel } from '@angular/cdk/collections';
 	styleUrls: ['project-classification-tree-structure.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectClassificationTreeStructureComponent {
+export class ProjectClassificationTreeStructureComponent implements OnChanges {
 	@Input() dataSource: MatTreeNestedDataSource<TreeNode>;
+	@Output() selectionChanged: EventEmitter<{ selectionModel: SelectionModel<TreeNode>; classificationKey: string }> =
+		new EventEmitter<{ selectionModel: SelectionModel<TreeNode>; classificationKey: string }>();
+
 	treeControl: NestedTreeControl<TreeNode> = new NestedTreeControl<TreeNode>((node) => node.children);
 	checklistSelection = new SelectionModel<TreeNode>(true);
 
@@ -58,11 +69,30 @@ export class ProjectClassificationTreeStructureComponent {
 		return result && !this.descendantsAllSelected(node);
 	}
 
-	todoItemSelectionToggle(node: TreeNode): void {
+	nestedItemSelectionToggle(node: TreeNode): void {
 		this.checklistSelection.toggle(node);
 		const descendants = this.treeControl.getDescendants(node);
 		this.checklistSelection.isSelected(node)
 			? this.checklistSelection.select(...descendants)
 			: this.checklistSelection.deselect(...descendants);
+
+		this.selectionChanged.emit({
+			selectionModel: this.checklistSelection,
+			classificationKey: this.dataSource.data[0]?.name,
+		});
+	}
+
+	itemSelectionToggle(node: TreeNode): void {
+		this.checklistSelection.toggle(node);
+		this.selectionChanged.emit({
+			selectionModel: this.checklistSelection,
+			classificationKey: this.dataSource.data[0]?.name,
+		});
+	}
+
+	ngOnChanges(changes: SimpleChanges): void {
+		if (this.dataSource) {
+			this.treeControl.expand(this.dataSource?.data[0]);
+		}
 	}
 }

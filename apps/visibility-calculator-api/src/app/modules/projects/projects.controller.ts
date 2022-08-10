@@ -4,7 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectFeatureName } from './projects.config';
 import { ProjectsVisibilityService } from './projects-visibility.service';
-import { ProjectStructureDto } from './dtos/projects-classification.dto';
+import { ProjectClassificationDto, ProjectStructureDto } from './dtos/projects-classification.dto';
 import { GraphDto } from './dtos/projects-graph.dto';
 import { CreateProjectDto, EntityVisibilityDto, ProjectDto } from './dtos/projects.dto';
 
@@ -35,7 +35,7 @@ export class ProjectsController {
 		type: ProjectStructureDto,
 	})
 	async parseProject(@UploadedFile() file): Promise<ProjectStructureDto> {
-		return this.projectService.getProjectClassification(file);
+		return this.projectService.getProjectStructure(file);
 	}
 
 	@Get(':id/graph')
@@ -44,6 +44,19 @@ export class ProjectsController {
 	})
 	async getProjectGraph(@Param('id') projectId: string): Promise<GraphDto> {
 		return this.projectService.getGraphByProjectId(projectId);
+	}
+
+	@Post('graph')
+	@ApiBody({
+		type: ProjectClassificationDto,
+	})
+	@ApiOkResponse({
+		type: GraphDto,
+	})
+	async getGraphForProjectClassification(
+		@Body() projectClassificationDto: ProjectClassificationDto
+	): Promise<GraphDto> {
+		return this.projectService.getProjectClassification(projectClassificationDto);
 	}
 
 	@Get(':id/visibility')
