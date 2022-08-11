@@ -8,7 +8,6 @@ import {
 	VerifyStructureStepPayload,
 } from '../../types/project-form.types';
 import { ProjectService } from '../../services/project.service';
-
 import { cloneDeep as _cloneDeep } from 'lodash';
 
 @Component({
@@ -29,7 +28,6 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Verifiy Structure</ng-template>
-
 			<ro-ubb-project-verifiy-structure
 				[form]="formGroup"
 				[originalProjectStructure]="this.originalProjectStructure"
@@ -38,9 +36,6 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Create Mappings</ng-template>
-			<div class="right-aligned">
-				<button mat-raised-button matStepperNext color="primary">Next</button>
-			</div>
 			<ro-ubb-project-create-mappings [form]="formGroup"></ro-ubb-project-create-mappings>
 		</mat-step>
 		<mat-step>
@@ -62,6 +57,7 @@ export class ProjectFormContainerComponent implements OnInit {
 		this.formGroup = new FormGroup<ProjectForm>({
 			projectFile: new FormControl(null, [Validators.required]),
 			projectStructure: new FormControl(null),
+			originalStructure: new FormControl(null),
 		});
 	}
 
@@ -77,13 +73,19 @@ export class ProjectFormContainerComponent implements OnInit {
 		this.originalProjectStructure = await this.projectService.parseProject(payload.file);
 		const clonedProjectStructure = _cloneDeep(this.originalProjectStructure);
 
-		this.formGroup.patchValue({ projectStructure: clonedProjectStructure });
+		this.formGroup.patchValue({
+			originalStructure: this.originalProjectStructure,
+			projectStructure: clonedProjectStructure,
+		});
 	}
 
 	async handleVerifyStructureStep(payload: VerifyStructureStepPayload): Promise<void> {
 		const updatedGraph = await this.projectService.getGraphFromClassification(payload.projectClassification);
 		this.formGroup.patchValue({
-			projectStructure: { graph: updatedGraph, classification: payload.projectClassification },
+			projectStructure: {
+				graph: updatedGraph,
+				classification: payload.projectClassification,
+			},
 		});
 	}
 }

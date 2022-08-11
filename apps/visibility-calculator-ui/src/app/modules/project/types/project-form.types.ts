@@ -3,6 +3,7 @@ import { AbstractControl } from '@angular/forms';
 export interface ProjectForm {
 	projectFile: AbstractControl<File | null>;
 	projectStructure: AbstractControl<null>;
+	originalStructure: AbstractControl<null>;
 }
 
 export enum ProjectFormStep {

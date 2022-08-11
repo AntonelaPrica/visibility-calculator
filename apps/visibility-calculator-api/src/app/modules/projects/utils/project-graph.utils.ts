@@ -17,6 +17,7 @@ export class ProjectGraphUtils {
 
 		clonedClassification.dtos?.forEach((dto) => {
 			const dtoId = uuidv4();
+			dto.id = dtoId;
 			dtosMap.set(dtoId, dto);
 			nodes.set(dtoId, {
 				id: dtoId,
@@ -25,11 +26,12 @@ export class ProjectGraphUtils {
 				incomingEdges: [],
 				outgoingEdges: [],
 			});
-			dto.id = dtoId;
 		});
 
 		clonedClassification.entities?.forEach((entity) => {
 			const entityId = uuidv4();
+			entity.id = entityId;
+
 			nodes.set(entityId, {
 				id: entityId,
 				name: entity.name,
@@ -40,6 +42,8 @@ export class ProjectGraphUtils {
 
 			entity.variables.forEach((entityField) => {
 				const entityFieldId = uuidv4();
+				entityField.id = entityFieldId;
+
 				nodes.set(entityFieldId, {
 					id: entityFieldId,
 					name: entityField.variableName,
@@ -48,14 +52,13 @@ export class ProjectGraphUtils {
 					outgoingEdges: [],
 				});
 				nodes.get(entityId).incomingEdges.push(entityFieldId);
-				entityField.id = entityFieldId;
 			});
-
-			entity.id = entityId;
 		});
 
 		clonedClassification.controllers?.forEach((controller) => {
 			const controllerId = uuidv4();
+			controller.id = controllerId;
+
 			nodes.set(controllerId, {
 				id: controllerId,
 				name: controller.name,
@@ -65,6 +68,8 @@ export class ProjectGraphUtils {
 			});
 			controller.methods?.forEach((controllerMethod) => {
 				const controllerMethodId = uuidv4();
+				controllerMethod.id = controllerMethodId;
+
 				nodes.set(controllerMethodId, {
 					id: controllerMethodId,
 					name: controllerMethod.methodName,
@@ -87,10 +92,7 @@ export class ProjectGraphUtils {
 					nodes.get(foundDtoKey).incomingEdges.push(controllerMethodId);
 					nodes.get(controllerMethodId).outgoingEdges.push(foundDtoKey);
 				}
-				controllerMethod.id = controllerMethodId;
 			});
-
-			controller.id = controllerId;
 		});
 
 		graph.nodes = Array.from(nodes.values());

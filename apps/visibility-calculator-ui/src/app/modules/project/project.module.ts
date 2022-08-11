@@ -14,6 +14,7 @@ import { ProjectDescriptionTabComponent } from './containers/project-view-contai
 import { ProjectVisibilityTabComponent } from './containers/project-view-container/project-visibility-tab/project-visibility-tab.component';
 import { ProjectViewContainerComponent } from './containers/project-view-container/project-view-container.component';
 import { ProjectClassificationTreeStructureComponent } from './containers/project-create-container/project-verify-structure/project-classification-tree-structure/project-classification-tree-structure.component';
+import { MatTreeSelectInputModule } from 'mat-tree-select-input';
 
 @NgModule({
 	declarations: [
@@ -31,7 +32,7 @@ import { ProjectClassificationTreeStructureComponent } from './containers/projec
 		ProjectViewContainerComponent,
 		ProjectClassificationTreeStructureComponent,
 	],
-	imports: [SharedModule, ProjectRoutingModule],
+	imports: [SharedModule, ProjectRoutingModule, MatTreeSelectInputModule],
 	providers: [],
 	exports: [],
 })
