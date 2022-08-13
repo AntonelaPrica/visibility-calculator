@@ -54,7 +54,7 @@ export class ProjectClassificationTreeStructureComponent implements OnChanges {
 		new EventEmitter<{ selectionModel: SelectionModel<TreeNode>; classificationKey: string }>();
 
 	treeControl: NestedTreeControl<TreeNode> = new NestedTreeControl<TreeNode>((node) => node.children);
-	checklistSelection = new SelectionModel<TreeNode>(true);
+	checklistSelection: SelectionModel<TreeNode> = new SelectionModel<TreeNode>(true);
 
 	hasChild = (_: number, node: TreeNode) => !!node.children && node.children.length > 0;
 
@@ -91,7 +91,7 @@ export class ProjectClassificationTreeStructureComponent implements OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (this.dataSource) {
+		if (this.dataSource && this.dataSource?.data.length > 0) {
 			this.treeControl.expand(this.dataSource?.data[0]);
 		}
 	}

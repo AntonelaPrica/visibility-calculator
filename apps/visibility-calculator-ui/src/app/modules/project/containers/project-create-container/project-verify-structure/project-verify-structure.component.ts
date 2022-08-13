@@ -9,10 +9,11 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { TreeNode } from '../../../types/project-structure.types';
+import { ProjectStructureDto, TreeNode } from '../../../types/project-structure.types';
 import { ProjectFormStep, VerifyStructureStepPayload } from '../../../types/project-form.types';
 import { SelectionModel } from '@angular/cdk/collections';
 import { cloneDeep as _cloneDeep } from 'lodash';
+import { ProjectClassificationDto } from '../../../types/project-classification.types';
 
 @Component({
 	selector: 'ro-ubb-project-verifiy-structure',
@@ -32,12 +33,12 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 })
 export class ProjectVerifyStructureComponent implements OnInit {
 	@Input() form: FormGroup;
-	@Input() originalProjectStructure: any;
+	@Input() originalProjectStructure: ProjectStructureDto;
 	@Output() verifiedStructure: EventEmitter<VerifyStructureStepPayload> =
 		new EventEmitter<VerifyStructureStepPayload>();
 
 	dataSources: MatTreeNestedDataSource<TreeNode>[] = [];
-	modifiedProjectClassification: any = { controllers: [], entities: [], dtos: [] };
+	modifiedProjectClassification: ProjectClassificationDto = { controllers: [], entities: [], dtos: [] };
 
 	constructor(private ref: ChangeDetectorRef) {}
 

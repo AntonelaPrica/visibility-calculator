@@ -9,6 +9,7 @@ import {
 } from '../../types/project-form.types';
 import { ProjectService } from '../../services/project.service';
 import { cloneDeep as _cloneDeep } from 'lodash';
+import { ProjectStructureDto } from '../../types/project-structure.types';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
@@ -49,7 +50,7 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 export class ProjectFormContainerComponent implements OnInit {
 	formGroup: FormGroup = null;
 	availableSteps = ProjectFormStep;
-	originalProjectStructure: any;
+	originalProjectStructure: ProjectStructureDto;
 
 	constructor(private projectService: ProjectService) {}
 

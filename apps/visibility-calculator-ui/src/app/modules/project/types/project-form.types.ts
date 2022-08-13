@@ -1,4 +1,5 @@
 import { AbstractControl } from '@angular/forms';
+import { ProjectClassificationDto } from './project-classification.types';
 
 export interface ProjectForm {
 	projectFile: AbstractControl<File | null>;
@@ -18,7 +19,7 @@ export class UploadFileStepPayload {
 
 export class VerifyStructureStepPayload {
 	type: ProjectFormStep.VerifyStructure;
-	projectClassification: any;
+	projectClassification: ProjectClassificationDto;
 }
 
 export type ProjectFormStepPayloadUnion = UploadFileStepPayload | VerifyStructureStepPayload;

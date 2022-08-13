@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TreeData } from 'mat-tree-select-input';
+import { ProjectDataClassificationDto } from '../../../types/project-classification.types';
 
 @Component({
 	selector: 'ro-ubb-project-create-mappings',
@@ -15,11 +16,12 @@ import { TreeData } from 'mat-tree-select-input';
 
 			<ngx-mat-tree-select-input-ngmodel
 				(selectionChanged)="onSelectionChanged()"
-				[(select)]="dtoSelection[dtoMapping?.dto]"
+				[(select)]="dtoSelection[dtoMapping?.dto?.name]"
 				[multiple]="true"
 				[options]="options"
 				[heading]="'Attributes of'"
 				[placeholder]="'Select entity attributes/dto'"
+				[canSelectParentNode]="false"
 			>
 			</ngx-mat-tree-select-input-ngmodel>
 		</div>
@@ -28,30 +30,22 @@ import { TreeData } from 'mat-tree-select-input';
 })
 export class ProjectCreateMappingsComponent implements OnInit {
 	@Input() form: FormGroup;
-	dtos: any[] = [];
-	dtosMappings: { dto: any; mappings: string }[] = [];
 
-	dtoSelection: { [key: string]: string }[] = [];
-
+	dtosMappings: { dto: ProjectDataClassificationDto; mappings: string }[] = [];
+	dtoSelection: any[] = [];
 	options: TreeData[] = [];
 
 	ngOnInit(): void {
 		this.form.valueChanges.subscribe((updatedForm) => {
-			this.dtoSelection = [];
+			// need to be cleared otherwise values would be gathering due to subscription
 			this.dtosMappings = [];
 
 			updatedForm?.projectStructure?.classification?.dtos.forEach((dto) => {
-				const obj: any = {};
-				obj[dto] = [];
-				this.dtoSelection.push(obj);
 				this.dtosMappings.push({ dto: dto, mappings: undefined });
 			});
 
-			console.log(updatedForm?.originalStructure?.classification);
-			console.log(updatedForm?.projectStructure?.classification?.dtos);
-
-			if (updatedForm?.originalStructure?.classification?.entities) {
-				this.options = this.constructTreeData(updatedForm?.originalStructure?.classification?.entities);
+			if (updatedForm?.projectStructure?.classification?.entities) {
+				this.options = this.constructTreeData(updatedForm?.projectStructure?.classification?.entities);
 			}
 		});
 	}
@@ -66,5 +60,7 @@ export class ProjectCreateMappingsComponent implements OnInit {
 		});
 	}
 
-	onSelectionChanged() {}
+	onSelectionChanged() {
+		console.log(this.dtoSelection);
+	}
 }
