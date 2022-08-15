@@ -19,6 +19,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
 
 @NgModule({
 	declarations: [],
@@ -43,6 +44,7 @@ import { MatIconModule } from '@angular/material/icon';
 		MatTreeModule,
 		MatStepperModule,
 		MatGridListModule,
+		NgxGraphModule,
 	],
 	providers: [],
 	exports: [
@@ -66,6 +68,7 @@ import { MatIconModule } from '@angular/material/icon';
 		MatTreeModule,
 		MatStepperModule,
 		MatGridListModule,
+		NgxGraphModule,
 	],
 })
 export class SharedModule {}

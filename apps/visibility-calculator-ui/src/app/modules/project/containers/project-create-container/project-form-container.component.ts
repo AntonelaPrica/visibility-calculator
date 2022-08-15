@@ -11,6 +11,7 @@ import {
 import { ProjectService } from '../../services/project.service';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import { ProjectStructureDto } from '../../types/project-structure.types';
+import { GraphUtils } from '../../utils/graph.utils';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
@@ -46,7 +47,7 @@ import { ProjectStructureDto } from '../../types/project-structure.types';
 		<mat-step>
 			<ng-template matStepLabel>Review & Save</ng-template>
 			<button mat-raised-button color="primary">Submit</button>
-			<ro-ubb-project-review></ro-ubb-project-review>
+			<ro-ubb-project-review [form]="formGroup"></ro-ubb-project-review>
 		</mat-step>
 	</mat-stepper>`,
 	styleUrls: ['project-form-container.component.scss'],
@@ -87,16 +88,26 @@ export class ProjectFormContainerComponent implements OnInit {
 	}
 
 	async handleVerifyStructureStep(payload: VerifyStructureStepPayload): Promise<void> {
-		const updatedGraph = await this.projectService.getGraphFromClassification(payload.projectClassification);
+		const newStructure = await this.projectService.getGraphFromClassification(payload.projectClassification);
+
 		this.formGroup.patchValue({
 			projectStructure: {
-				graph: updatedGraph,
-				classification: payload.projectClassification,
+				graph: newStructure.graph,
+				classification: newStructure.classification,
 			},
 		});
 	}
 
 	async handleMappingStep(payload: MappingStepPayload): Promise<void> {
-		console.log(payload.dtoMapping);
+		const graphWithMappings = GraphUtils.addDtoMappingsToGraph(
+			payload,
+			this.formGroup.get('projectStructure').value?.graph
+		);
+		this.formGroup.patchValue({
+			projectStructure: {
+				graph: graphWithMappings,
+				classification: this.formGroup.get('projectStructure').value?.classification,
+			},
+		});
 	}
 }

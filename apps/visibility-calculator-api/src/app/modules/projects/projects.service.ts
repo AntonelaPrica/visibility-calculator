@@ -73,8 +73,8 @@ export class ProjectsService {
 		return new ProjectStructureDto({ graph, classification });
 	}
 
-	async getProjectClassification(projectClassificationDto): Promise<GraphDto> {
-		return ProjectGraphUtils.parseClassificationToGraph(projectClassificationDto).graph;
+	async getProjectClassification(projectClassificationDto): Promise<ProjectStructureDto> {
+		return ProjectGraphUtils.parseClassificationToGraph(projectClassificationDto);
 	}
 
 	private static async parseProjectClassification(file): Promise<ProjectClassificationDto> {

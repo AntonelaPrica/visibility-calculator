@@ -91,7 +91,8 @@ export class ProjectClassificationTreeStructureComponent implements OnChanges {
 	}
 
 	ngOnChanges(changes: SimpleChanges): void {
-		if (this.dataSource && this.dataSource?.data.length > 0) {
+		if (changes['dataSource'] && changes['dataSource']?.currentValue?.data.length > 0) {
+			this.dataSource = changes['dataSource']?.currentValue;
 			this.treeControl.expand(this.dataSource?.data[0]);
 		}
 	}

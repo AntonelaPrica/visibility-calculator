@@ -14,7 +14,9 @@ import { ProjectFormStep, VerifyStructureStepPayload } from '../../../types/proj
 import { SelectionModel } from '@angular/cdk/collections';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import { ProjectClassificationDto } from '../../../types/project-classification.types';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
 	selector: 'ro-ubb-project-verifiy-structure',
 	template: `
@@ -40,10 +42,10 @@ export class ProjectVerifyStructureComponent implements OnInit {
 	dataSources: MatTreeNestedDataSource<TreeNode>[] = [];
 	modifiedProjectClassification: ProjectClassificationDto = { controllers: [], entities: [], dtos: [] };
 
-	constructor(private ref: ChangeDetectorRef) {}
+	constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
 	ngOnInit(): void {
-		this.form.valueChanges.subscribe((value) => {
+		this.form.valueChanges.pipe(untilDestroyed(this)).subscribe((value) => {
 			if (value?.projectStructure?.classification) {
 				const trees = Object.keys(value?.projectStructure?.classification);
 				for (const tree of trees) {
@@ -59,14 +61,14 @@ export class ProjectVerifyStructureComponent implements OnInit {
 					this.dataSources.push(dataSource);
 				}
 			}
-			this.ref.markForCheck();
+			this.changeDetectorRef.markForCheck();
 		});
 	}
 
 	onSelectionChanged(payload: { selectionModel: SelectionModel<TreeNode>; classificationKey: string }) {
 		const selectedNodeIds = payload.selectionModel.selected
 			.map((selectedNode) => selectedNode.id)
-			.filter((id) => id != '');
+			.filter((id) => id !== '');
 
 		let classificationData = _cloneDeep(this.originalProjectStructure?.classification[payload.classificationKey]);
 

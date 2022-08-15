@@ -6,6 +6,11 @@ import { ProjectClassificationDto, ProjectDataClassificationDto } from '../dtos/
 import { NodeTypeEnum } from '@ro-ubb/api-interfaces';
 
 export class ProjectGraphUtils {
+	/**
+	 * From a project classification without ids,
+	 * return a graph and a new classification which
+	 * contains the ids of the graph nodes
+	 */
 	static parseClassificationToGraph(classification: ProjectClassificationDto): {
 		graph: GraphEntity;
 		classification: ProjectClassificationDto;

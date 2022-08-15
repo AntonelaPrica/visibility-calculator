@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { ProjectStructureDto } from '../types/project-structure.types';
 import { ProjectDto } from '../types/project.types';
-import { GraphDto } from '../types/project-graph.types';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
@@ -19,7 +18,7 @@ export class ProjectService {
 		return firstValueFrom(this.http.get<ProjectDto[]>('api/project'));
 	}
 
-	async getGraphFromClassification(projectClassification): Promise<GraphDto> {
-		return firstValueFrom(this.http.post<GraphDto>('api/project/graph', projectClassification));
+	async getGraphFromClassification(projectClassification): Promise<ProjectStructureDto> {
+		return firstValueFrom(this.http.post<ProjectStructureDto>('api/project/graph', projectClassification));
 	}
 }

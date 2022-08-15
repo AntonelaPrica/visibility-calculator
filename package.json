@@ -27,8 +27,12 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/typeorm": "^8.1.4",
+    "@ngneat/until-destroy": "^9.2.1",
     "@nrwl/angular": "14.1.4",
+    "@swimlane/ngx-graph": "^8.0.2",
     "adm-zip": "^0.5.9",
+    "d3-scale": "^4.0.2",
+    "dagre": "^0.8.5",
     "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "mat-tree-select-input": "^1.1.7",
@@ -39,6 +43,7 @@
     "tslib": "^2.0.0",
     "typeorm": "^0.3.6",
     "uuid": "^8.3.2",
+    "webcola": "^3.4.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

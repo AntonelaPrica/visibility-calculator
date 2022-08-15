@@ -3,7 +3,10 @@ import { FormGroup } from '@angular/forms';
 import { TreeData } from 'mat-tree-select-input';
 import { ProjectDataClassificationDto } from '../../../types/project-classification.types';
 import { MappingStepPayload, ProjectFormStep } from '../../../types/project-form.types';
+import { cloneDeep as _cloneDeep } from 'lodash';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
 	selector: 'ro-ubb-project-create-mappings',
 	template: ` <div class="right-aligned">
@@ -15,7 +18,7 @@ import { MappingStepPayload, ProjectFormStep } from '../../../types/project-form
 				<label>{{ dto?.name }} </label>
 
 				<ngx-mat-tree-select-input-ngmodel
-					[(select)]="dtoMapping[dto?.id]"
+					(selectionChanged)="onSelect($event, dto)"
 					[multiple]="true"
 					[options]="options"
 					[heading]="'Attributes of'"
@@ -36,8 +39,8 @@ export class ProjectCreateMappingsComponent implements OnInit {
 	options: TreeData[] = [];
 
 	ngOnInit(): void {
-		this.form.valueChanges.subscribe((updatedForm) => {
-			this.dtos = updatedForm?.projectStructure?.classification?.dtos;
+		this.form.valueChanges.pipe(untilDestroyed(this)).subscribe((updatedForm) => {
+			this.dtos = _cloneDeep(updatedForm?.projectStructure?.classification?.dtos);
 
 			if (updatedForm?.projectStructure?.classification?.entities) {
 				this.options = this.constructTreeData(updatedForm?.projectStructure?.classification?.entities);
@@ -45,7 +48,7 @@ export class ProjectCreateMappingsComponent implements OnInit {
 		});
 	}
 
-	constructTreeData(data) {
+	constructTreeData(data): TreeData[] {
 		return data.map((item) => {
 			return {
 				name: item?.name ? item?.name : item?.variableName ? item?.variableName : '',
@@ -55,10 +58,14 @@ export class ProjectCreateMappingsComponent implements OnInit {
 		});
 	}
 
+	onSelect(value: TreeData[], dto: ProjectDataClassificationDto): void {
+		this.dtoMapping[dto.id] = value;
+	}
+
 	onNext() {
 		this.dtoMappingsToFields.emit({
 			type: ProjectFormStep.Mapping,
-			dtoMapping: this.dtoMapping,
+			dtoMappings: this.dtoMapping,
 		});
 	}
 }

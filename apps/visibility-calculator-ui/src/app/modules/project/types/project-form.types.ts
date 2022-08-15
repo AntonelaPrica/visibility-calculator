@@ -1,6 +1,5 @@
 import { AbstractControl } from '@angular/forms';
 import { ProjectClassificationDto } from './project-classification.types';
-import { GraphDto } from './project-graph.types';
 import { TreeData } from 'mat-tree-select-input';
 
 export interface ProjectForm {
@@ -27,7 +26,7 @@ export class VerifyStructureStepPayload {
 
 export class MappingStepPayload {
 	type: ProjectFormStep.Mapping;
-	dtoMapping: { [key: string]: TreeData[] };
+	dtoMappings: { [key: string]: TreeData[] };
 }
 
 export type ProjectFormStepPayloadUnion = UploadFileStepPayload | VerifyStructureStepPayload | MappingStepPayload;

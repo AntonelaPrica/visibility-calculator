@@ -55,7 +55,7 @@ export class ProjectsController {
 	})
 	async getGraphForProjectClassification(
 		@Body() projectClassificationDto: ProjectClassificationDto
-	): Promise<GraphDto> {
+	): Promise<ProjectStructureDto> {
 		return this.projectService.getProjectClassification(projectClassificationDto);
 	}
 
