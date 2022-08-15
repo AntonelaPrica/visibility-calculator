@@ -51,7 +51,7 @@ export class ProjectGraphUtils {
 					incomingEdges: [entityId],
 					outgoingEdges: [],
 				});
-				nodes.get(entityId).incomingEdges.push(entityFieldId);
+				nodes.get(entityId).outgoingEdges.push(entityFieldId);
 			});
 		});
 
@@ -77,6 +77,9 @@ export class ProjectGraphUtils {
 					incomingEdges: [controllerId],
 					outgoingEdges: [],
 				});
+
+				//set also outgoing for controller node
+				nodes.get(controllerId).outgoingEdges.push(controllerMethodId);
 
 				const regexExp = /([a-zA-Z]*<)*([a-zA-Z1-9]+)(>)*/gm;
 				const foundMatches = [...controllerMethod.returnType.matchAll(regexExp)];

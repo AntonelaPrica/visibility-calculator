@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+	MappingStepPayload,
 	ProjectForm,
 	ProjectFormStep,
 	ProjectFormStepPayloadUnion,
@@ -37,7 +38,10 @@ import { ProjectStructureDto } from '../../types/project-structure.types';
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Create Mappings</ng-template>
-			<ro-ubb-project-create-mappings [form]="formGroup"></ro-ubb-project-create-mappings>
+			<ro-ubb-project-create-mappings
+				[form]="formGroup"
+				(dtoMappingsToFields)="handleStep($event)"
+			></ro-ubb-project-create-mappings>
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Review & Save</ng-template>
@@ -67,6 +71,8 @@ export class ProjectFormContainerComponent implements OnInit {
 			await this.handleUploadFileStep(payload);
 		} else if (payload.type === ProjectFormStep.VerifyStructure) {
 			await this.handleVerifyStructureStep(payload);
+		} else if (payload.type === ProjectFormStep.Mapping) {
+			await this.handleMappingStep(payload);
 		}
 	}
 
@@ -88,5 +94,9 @@ export class ProjectFormContainerComponent implements OnInit {
 				classification: payload.projectClassification,
 			},
 		});
+	}
+
+	async handleMappingStep(payload: MappingStepPayload): Promise<void> {
+		console.log(payload.dtoMapping);
 	}
 }
