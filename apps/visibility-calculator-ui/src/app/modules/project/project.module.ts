@@ -10,11 +10,12 @@ import { ProjectCreateMappingsComponent } from './containers/project-create-cont
 import { ProjectReviewComponent } from './containers/project-create-container/project-review/project-review.component';
 import { ProjectUploadComponent } from './containers/project-create-container/project-upload/project-upload.component';
 import { ProjectVerifyStructureComponent } from './containers/project-create-container/project-verify-structure/project-verify-structure.component';
-import { ProjectDescriptionTabComponent } from './containers/project-view-container/project-description-tab/project-description-tab.component';
 import { ProjectVisibilityTabComponent } from './containers/project-view-container/project-visibility-tab/project-visibility-tab.component';
 import { ProjectViewContainerComponent } from './containers/project-view-container/project-view-container.component';
 import { ProjectClassificationTreeStructureComponent } from './containers/project-create-container/project-verify-structure/project-classification-tree-structure/project-classification-tree-structure.component';
 import { MatTreeSelectInputModule } from 'mat-tree-select-input';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { ProjectGraphTabComponent } from './containers/project-view-container/project-graph-tab/project-graph-tab.component';
 
 @NgModule({
 	declarations: [
@@ -27,12 +28,12 @@ import { MatTreeSelectInputModule } from 'mat-tree-select-input';
 		ProjectReviewComponent,
 		ProjectUploadComponent,
 		ProjectVerifyStructureComponent,
-		ProjectDescriptionTabComponent,
+		ProjectGraphTabComponent,
 		ProjectVisibilityTabComponent,
 		ProjectViewContainerComponent,
 		ProjectClassificationTreeStructureComponent,
 	],
-	imports: [SharedModule, ProjectRoutingModule, MatTreeSelectInputModule],
+	imports: [SharedModule, ProjectRoutingModule, MatTreeSelectInputModule, MatSidenavModule],
 	providers: [],
 	exports: [],
 })

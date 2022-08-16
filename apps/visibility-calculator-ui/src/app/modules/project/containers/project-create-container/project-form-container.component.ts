@@ -12,6 +12,10 @@ import { ProjectService } from '../../services/project.service';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import { ProjectStructureDto } from '../../types/project-structure.types';
 import { GraphUtils } from '../../utils/graph.utils';
+import { ProjectWithGraphDto } from '../../types/project.types';
+import { Router } from '@angular/router';
+import { AppRoutePaths } from '../../../../core/types/app-routes.types';
+import { ProjectRoutesTypes } from '../../types/project-routes.types';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
@@ -46,8 +50,7 @@ import { GraphUtils } from '../../utils/graph.utils';
 		</mat-step>
 		<mat-step>
 			<ng-template matStepLabel>Review & Save</ng-template>
-			<button mat-raised-button color="primary">Submit</button>
-			<ro-ubb-project-review [form]="formGroup"></ro-ubb-project-review>
+			<ro-ubb-project-review [form]="formGroup" (submitProject)="handleStep($event)"></ro-ubb-project-review>
 		</mat-step>
 	</mat-stepper>`,
 	styleUrls: ['project-form-container.component.scss'],
@@ -57,7 +60,7 @@ export class ProjectFormContainerComponent implements OnInit {
 	availableSteps = ProjectFormStep;
 	originalProjectStructure: ProjectStructureDto;
 
-	constructor(private projectService: ProjectService) {}
+	constructor(private projectService: ProjectService, private router: Router) {}
 
 	ngOnInit(): void {
 		this.formGroup = new FormGroup<ProjectForm>({
@@ -74,6 +77,8 @@ export class ProjectFormContainerComponent implements OnInit {
 			await this.handleVerifyStructureStep(payload);
 		} else if (payload.type === ProjectFormStep.Mapping) {
 			await this.handleMappingStep(payload);
+		} else if (payload.type === ProjectFormStep.ProjectSubmit) {
+			await this.handleSubmit();
 		}
 	}
 
@@ -88,7 +93,7 @@ export class ProjectFormContainerComponent implements OnInit {
 	}
 
 	async handleVerifyStructureStep(payload: VerifyStructureStepPayload): Promise<void> {
-		const newStructure = await this.projectService.getGraphFromClassification(payload.projectClassification);
+		const newStructure = await this.projectService.getNewGraphFromClassification(payload.projectClassification);
 
 		this.formGroup.patchValue({
 			projectStructure: {
@@ -109,5 +114,15 @@ export class ProjectFormContainerComponent implements OnInit {
 				classification: this.formGroup.get('projectStructure').value?.classification,
 			},
 		});
+	}
+
+	async handleSubmit() {
+		const projectToSave: ProjectWithGraphDto = {
+			name: 'test1',
+			graph: this.formGroup.get('projectStructure').value?.graph,
+		};
+		const savedProject = await this.projectService.saveProject(projectToSave);
+
+		// this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.View, savedProject?.id]);
 	}
 }

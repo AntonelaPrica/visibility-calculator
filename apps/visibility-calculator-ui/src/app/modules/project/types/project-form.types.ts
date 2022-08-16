@@ -12,6 +12,7 @@ export enum ProjectFormStep {
 	UploadFile = 'UploadFile',
 	VerifyStructure = 'Verify Structure',
 	Mapping = 'Mapping',
+	ProjectSubmit = 'Submit',
 }
 
 export class UploadFileStepPayload {
@@ -29,4 +30,12 @@ export class MappingStepPayload {
 	dtoMappings: { [key: string]: TreeData[] };
 }
 
-export type ProjectFormStepPayloadUnion = UploadFileStepPayload | VerifyStructureStepPayload | MappingStepPayload;
+export class ProjectSubmitPayload {
+	type: ProjectFormStep.ProjectSubmit;
+}
+
+export type ProjectFormStepPayloadUnion =
+	| UploadFileStepPayload
+	| VerifyStructureStepPayload
+	| MappingStepPayload
+	| ProjectSubmitPayload;

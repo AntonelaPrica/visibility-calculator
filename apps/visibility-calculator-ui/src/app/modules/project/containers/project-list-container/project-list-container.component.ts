@@ -22,4 +22,10 @@ export class ProjectListContainerComponent implements OnInit {
 	onCreateProject() {
 		this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.Create]);
 	}
+
+	openProject(projectDto: ProjectDto) {
+		this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.View, projectDto?.id], {
+			state: { projectDto: projectDto },
+		});
+	}
 }

@@ -8,3 +8,9 @@ export interface ProjectDto {
 	name: string;
 	graph: GraphWithoutNode;
 }
+
+export interface ProjectWithGraphDto {
+	id?: string;
+	name: string;
+	graph: GraphDto;
+}
