@@ -14,6 +14,8 @@ import { ProjectStructureDto } from '../../types/project-structure.types';
 import { GraphUtils } from '../../utils/graph.utils';
 import { ProjectWithGraphDto } from '../../types/project.types';
 import { Router } from '@angular/router';
+import { AppRoutePaths } from 'apps/visibility-calculator-ui/src/app/core/types/app-routes.types';
+import { ProjectRoutesTypes } from '../../types/project-routes.types';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
@@ -120,7 +122,8 @@ export class ProjectFormContainerComponent implements OnInit {
 			graph: this.formGroup.get('projectStructure').value?.graph,
 		};
 		const savedProject = await this.projectService.saveProject(projectToSave);
-
-		// this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.View, savedProject?.id]);
+		await this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.View, savedProject?.id], {
+			state: { projectDto: savedProject },
+		});
 	}
 }

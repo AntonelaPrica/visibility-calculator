@@ -16,10 +16,10 @@ import { Router } from '@angular/router';
 
 			<mat-tab-group>
 				<mat-tab label="Entity Field Visibility">
-					<ro-ubb-project-visibility-tab></ro-ubb-project-visibility-tab>
+					<ro-ubb-project-visibility-tab [projectVisibility]="projectVisibility"></ro-ubb-project-visibility-tab>
 				</mat-tab>
 				<mat-tab label="Graph">
-					<ro-ubb-project-graph-tab></ro-ubb-project-graph-tab>
+					<ro-ubb-project-graph-tab [projectGraph]="projectGraph"></ro-ubb-project-graph-tab>
 				</mat-tab>
 			</mat-tab-group>
 		</div>

@@ -16,6 +16,9 @@ import { ProjectClassificationTreeStructureComponent } from './containers/projec
 import { MatTreeSelectInputModule } from 'mat-tree-select-input';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ProjectGraphTabComponent } from './containers/project-view-container/project-graph-tab/project-graph-tab.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
+import { GraphContainerComponent } from './containers/graph-container/graph-container.component';
 
 @NgModule({
 	declarations: [
@@ -32,8 +35,16 @@ import { ProjectGraphTabComponent } from './containers/project-view-container/pr
 		ProjectVisibilityTabComponent,
 		ProjectViewContainerComponent,
 		ProjectClassificationTreeStructureComponent,
+		GraphContainerComponent,
 	],
-	imports: [SharedModule, ProjectRoutingModule, MatTreeSelectInputModule, MatSidenavModule],
+	imports: [
+		SharedModule,
+		ProjectRoutingModule,
+		MatTreeSelectInputModule,
+		MatSidenavModule,
+		MatExpansionModule,
+		MatTableModule,
+	],
 	providers: [],
 	exports: [],
 })

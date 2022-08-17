@@ -9,7 +9,7 @@ import { ProjectFormStep, UploadFileStepPayload } from '../../../types/project-f
 				mat-raised-button
 				matStepperNext
 				color="primary"
-				[disabled]="!form.get('projectFile').value && !form.get('projectTitle').value"
+				[disabled]="!form.get('projectFile').value || !form.get('projectTitle').value"
 				(click)="onNext()"
 			>
 				Next
