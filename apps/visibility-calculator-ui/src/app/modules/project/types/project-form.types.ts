@@ -4,6 +4,8 @@ import { TreeData } from 'mat-tree-select-input';
 
 export interface ProjectForm {
 	projectFile: AbstractControl<File | null>;
+	projectTitle: AbstractControl<null>;
+	projectDescription: AbstractControl<null | string>;
 	projectStructure: AbstractControl<null>;
 	originalStructure: AbstractControl<null>;
 }

@@ -58,7 +58,11 @@ export class ProjectsService {
 			const initialNodes = newProject.graph.nodes.map((node) => ProjectsMappers.mapToNodeEntity(node, savedGraph));
 			await this.nodeEntityRepository.save(initialNodes);
 
-			const entity = new ProjectEntity({ name: newProject.name, graph: savedGraph });
+			const entity = new ProjectEntity({
+				name: newProject.name,
+				description: newProject.description,
+				graph: savedGraph,
+			});
 			const savedProject: ProjectEntity = await this.projectEntityRepository.save(entity);
 			return ProjectsMappers.mapToProjectDto(savedProject);
 		} catch (error) {

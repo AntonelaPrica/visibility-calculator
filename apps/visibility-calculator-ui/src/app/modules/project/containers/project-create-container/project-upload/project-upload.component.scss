@@ -1,9 +1,15 @@
 .upload-container {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  width: 50%;
 }
 
 .file-input {
   display: none;
 }
 
+.right-aligned {
+  display: flex;
+  justify-content: right
+}

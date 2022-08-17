@@ -14,6 +14,9 @@ export class ProjectDto extends ProjectDtoInterface {
 	id: string;
 
 	@ApiProperty()
+	description: string;
+
+	@ApiProperty()
 	name: string;
 
 	@ApiProperty({ type: GraphWithoutNode })
@@ -27,6 +30,9 @@ export class ProjectDto extends ProjectDtoInterface {
 export class CreateProjectDto extends CreateProjectDtoInterface {
 	@ApiProperty()
 	name: string;
+
+	@ApiProperty()
+	description: string;
 
 	@ApiProperty({ type: GraphDto })
 	graph: GraphDto;

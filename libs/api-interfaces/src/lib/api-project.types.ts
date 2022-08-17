@@ -5,6 +5,7 @@ export class GraphWithoutNode extends OmitType(GraphDtoInterface, ['nodes'] as c
 
 export class ProjectDtoInterface {
 	id: string;
+	description: string;
 	name: string;
 	graph: GraphWithoutNode;
 
@@ -12,6 +13,7 @@ export class ProjectDtoInterface {
 		if (values) {
 			this.id = values.id;
 			this.name = values.name;
+			this.description = values.description;
 			this.graph = values.graph;
 		}
 	}
@@ -19,6 +21,7 @@ export class ProjectDtoInterface {
 
 export class CreateProjectDtoInterface {
 	name: string;
+	description: string;
 	graph: GraphDtoInterface;
 }
 

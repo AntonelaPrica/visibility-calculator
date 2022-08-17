@@ -9,6 +9,9 @@ export class ProjectEntity {
 	@Column()
 	name: string;
 
+	@Column({ nullable: true })
+	description: string;
+
 	@OneToOne(() => GraphEntity)
 	@JoinColumn()
 	graph: GraphEntity;
@@ -17,6 +20,7 @@ export class ProjectEntity {
 		if (values) {
 			this.id = values.id;
 			this.name = values.name;
+			this.description = values.description;
 			this.graph = values.graph;
 		}
 	}

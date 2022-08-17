@@ -10,6 +10,7 @@
 
 .grid-container {
   display: grid;
-  column-gap: 20px;
+  column-gap: 2%;
+  row-gap: 5%;
   grid-template-columns: 1fr 1fr 1fr;
 }

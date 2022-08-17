@@ -14,22 +14,17 @@ import { ProjectStructureDto } from '../../types/project-structure.types';
 import { GraphUtils } from '../../utils/graph.utils';
 import { ProjectWithGraphDto } from '../../types/project.types';
 import { Router } from '@angular/router';
-import { AppRoutePaths } from '../../../../core/types/app-routes.types';
-import { ProjectRoutesTypes } from '../../types/project-routes.types';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
 	template: ` <mat-stepper [linear]="true" *ngIf="formGroup">
 		<mat-step>
 			<ng-template matStepLabel>Upload Project</ng-template>
-			<div class="right-aligned">
-				<button mat-raised-button matStepperNext color="primary" [disabled]="!formGroup.get('projectFile').value">
-					Next
-				</button>
-			</div>
 			<ro-ubb-project-upload
 				[form]="formGroup"
-				controlName="projectFile"
+				uploadControlName="projectFile"
+				titleControlName="projectTitle"
+				descriptionControlName="projectDescription"
 				(fileUpload)="handleStep($event)"
 			></ro-ubb-project-upload>
 		</mat-step>
@@ -65,6 +60,8 @@ export class ProjectFormContainerComponent implements OnInit {
 	ngOnInit(): void {
 		this.formGroup = new FormGroup<ProjectForm>({
 			projectFile: new FormControl(null, [Validators.required]),
+			projectTitle: new FormControl(null, [Validators.required]),
+			projectDescription: new FormControl(''),
 			projectStructure: new FormControl(null),
 			originalStructure: new FormControl(null),
 		});
@@ -118,7 +115,8 @@ export class ProjectFormContainerComponent implements OnInit {
 
 	async handleSubmit() {
 		const projectToSave: ProjectWithGraphDto = {
-			name: 'test1',
+			name: this.formGroup.get('projectTitle')?.value,
+			description: this.formGroup.get('projectDescription')?.value,
 			graph: this.formGroup.get('projectStructure').value?.graph,
 		};
 		const savedProject = await this.projectService.saveProject(projectToSave);

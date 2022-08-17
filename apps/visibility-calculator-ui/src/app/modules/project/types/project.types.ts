@@ -6,11 +6,13 @@ export class GraphWithoutNode extends OmitType(GraphDto, ['nodes'] as const) {}
 export interface ProjectDto {
 	id: string;
 	name: string;
+	description?: string;
 	graph: GraphWithoutNode;
 }
 
 export interface ProjectWithGraphDto {
 	id?: string;
 	name: string;
+	description: string;
 	graph: GraphDto;
 }

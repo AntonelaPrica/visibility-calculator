@@ -9,6 +9,7 @@ export class ProjectsMappers {
 		return new ProjectDto({
 			id: projectEntity.id,
 			name: projectEntity.name,
+			description: projectEntity.description,
 			graph: projectEntity.graph,
 		});
 	}
