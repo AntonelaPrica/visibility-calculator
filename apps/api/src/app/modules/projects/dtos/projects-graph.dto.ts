@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { GraphDtoInterface, NodeDtoInterface, NodeTypeEnum } from '@ro-ubb/api-interfaces';
+import { IGraph, INode, NodeTypeEnum } from '@ro-ubb/api-interfaces';
 
-export class NodeDto extends NodeDtoInterface {
+export class NodeDto implements INode {
 	@ApiProperty()
 	id: string;
 
@@ -18,11 +18,17 @@ export class NodeDto extends NodeDtoInterface {
 	type: NodeTypeEnum;
 
 	constructor(values: Partial<NodeDto>) {
-		super(values);
+		if (values) {
+			this.id = values.id;
+			this.name = values.name;
+			this.outgoingEdges = values.outgoingEdges;
+			this.incomingEdges = values.incomingEdges;
+			this.type = values.type;
+		}
 	}
 }
 
-export class GraphDto extends GraphDtoInterface {
+export class GraphDto implements IGraph {
 	@ApiProperty()
 	id: string;
 
@@ -30,6 +36,9 @@ export class GraphDto extends GraphDtoInterface {
 	nodes: NodeDto[];
 
 	constructor(values: Partial<GraphDto>) {
-		super(values);
+		if (values) {
+			this.id = values.id;
+			this.nodes = values.nodes?.map((node) => new NodeDto({ ...node })) || [];
+		}
 	}
 }

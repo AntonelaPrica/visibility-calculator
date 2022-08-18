@@ -1,56 +1,26 @@
-import { GraphDtoInterface } from './api-project-graph.types';
-import { OmitType } from '@nestjs/swagger';
+import { IGraph, IGraphReference } from './api-project-graph.types';
 
-export class GraphWithoutNode extends OmitType(GraphDtoInterface, ['nodes'] as const) {}
-
-export class ProjectDtoInterface {
+export interface IProject {
 	id: string;
 	description: string;
 	name: string;
-	graph: GraphWithoutNode;
-
-	constructor(values: Partial<ProjectDtoInterface>) {
-		if (values) {
-			this.id = values.id;
-			this.name = values.name;
-			this.description = values.description;
-			this.graph = values.graph;
-		}
-	}
+	graph: IGraphReference;
 }
 
-export class CreateProjectDtoInterface {
+export interface ICreateProject {
 	name: string;
 	description: string;
-	graph: GraphDtoInterface;
+	graph: IGraph;
 }
 
-export class FieldVisibilityDtoInterface {
+export interface IFieldVisibility {
 	id: string;
 	fieldName: string;
 	visibility: number;
-
-	constructor(values: Partial<FieldVisibilityDtoInterface>) {
-		if (values) {
-			this.id = values.id;
-			this.fieldName = values.fieldName;
-			this.visibility = values.visibility;
-		}
-	}
 }
 
-export class EntityVisibilityDtoInterface {
+export interface IEntityVisibility {
 	id: string;
 	entityName: string;
-	fieldsVisibility: FieldVisibilityDtoInterface[];
-
-	constructor(values: Partial<EntityVisibilityDtoInterface>) {
-		if (values) {
-			this.id = values.id;
-			this.entityName = values.entityName;
-			this.fieldsVisibility =
-				values.fieldsVisibility?.map((fieldVisibility) => new FieldVisibilityDtoInterface({ ...fieldVisibility })) ||
-				[];
-		}
-	}
+	fieldsVisibility: IFieldVisibility[];
 }

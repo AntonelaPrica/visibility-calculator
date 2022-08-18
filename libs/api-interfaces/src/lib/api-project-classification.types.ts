@@ -1,4 +1,4 @@
-import { GraphDtoInterface } from './api-project-graph.types';
+import { IGraph } from './api-project-graph.types';
 
 export enum EncapsulationType {
 	public = 'public',
@@ -7,7 +7,7 @@ export enum EncapsulationType {
 	none = 'none',
 }
 
-export class ProjectMethodClassificationDtoInterface {
+export interface IProjectMethodClassification {
 	id?: string;
 	encapsulationType?: EncapsulationType;
 	returnType: string;
@@ -15,34 +15,27 @@ export class ProjectMethodClassificationDtoInterface {
 	input: string;
 }
 
-export class ProjectVariableClassificationDtoInterface {
+export interface IProjectVariableClassification {
 	id?: string;
 	encapsulationType?: EncapsulationType;
 	variableType: string;
 	variableName: string;
 }
 
-export class ProjectDataClassificationDtoInterface {
+export interface IProjectDataClassification {
 	id?: string;
 	name: string;
-	methods?: ProjectMethodClassificationDtoInterface[];
-	variables?: ProjectVariableClassificationDtoInterface[];
+	methods?: IProjectMethodClassification[];
+	variables?: IProjectVariableClassification[];
 }
 
-export class ProjectClassificationDtoInterface {
-	controllers: ProjectDataClassificationDtoInterface[] = [];
-	entities: ProjectDataClassificationDtoInterface[] = [];
-	dtos: ProjectDataClassificationDtoInterface[] = [];
+export interface IProjectClassification {
+	controllers: IProjectDataClassification[];
+	entities: IProjectDataClassification[];
+	dtos: IProjectDataClassification[];
 }
 
-export class ProjectStructureDtoInterface {
-	classification: ProjectClassificationDtoInterface;
-	graph: GraphDtoInterface;
-
-	constructor(values: Partial<ProjectStructureDtoInterface>) {
-		if (values) {
-			this.classification = values.classification;
-			this.graph = values.graph;
-		}
-	}
+export interface IProjectStructure {
+	classification: IProjectClassification;
+	graph: IGraph;
 }

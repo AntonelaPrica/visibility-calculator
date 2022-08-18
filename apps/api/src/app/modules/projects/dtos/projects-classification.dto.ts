@@ -2,14 +2,14 @@ import { ApiProperty } from '@nestjs/swagger';
 import { GraphDto } from './projects-graph.dto';
 import {
 	EncapsulationType,
-	ProjectClassificationDtoInterface,
-	ProjectDataClassificationDtoInterface,
-	ProjectMethodClassificationDtoInterface,
-	ProjectStructureDtoInterface,
-	ProjectVariableClassificationDtoInterface,
+	IProjectClassification,
+	IProjectDataClassification,
+	IProjectMethodClassification,
+	IProjectStructure,
+	IProjectVariableClassification,
 } from '@ro-ubb/api-interfaces';
 
-export class ProjectMethodClassificationDto extends ProjectMethodClassificationDtoInterface {
+export class ProjectMethodClassificationDto implements IProjectMethodClassification {
 	@ApiProperty({ nullable: true })
 	id?: string;
 
@@ -26,7 +26,7 @@ export class ProjectMethodClassificationDto extends ProjectMethodClassificationD
 	input: string;
 }
 
-export class ProjectVariableClassificationDto extends ProjectVariableClassificationDtoInterface {
+export class ProjectVariableClassificationDto implements IProjectVariableClassification {
 	@ApiProperty({ nullable: true })
 	id?: string;
 
@@ -40,7 +40,7 @@ export class ProjectVariableClassificationDto extends ProjectVariableClassificat
 	variableName: string;
 }
 
-export class ProjectDataClassificationDto extends ProjectDataClassificationDtoInterface {
+export class ProjectDataClassificationDto implements IProjectDataClassification {
 	@ApiProperty({ nullable: true })
 	id?: string;
 
@@ -54,7 +54,7 @@ export class ProjectDataClassificationDto extends ProjectDataClassificationDtoIn
 	variables?: ProjectVariableClassificationDto[];
 }
 
-export class ProjectClassificationDto extends ProjectClassificationDtoInterface {
+export class ProjectClassificationDto implements IProjectClassification {
 	@ApiProperty({ type: ProjectDataClassificationDto })
 	controllers: ProjectDataClassificationDto[] = [];
 
@@ -65,13 +65,16 @@ export class ProjectClassificationDto extends ProjectClassificationDtoInterface 
 	dtos: ProjectDataClassificationDto[] = [];
 }
 
-export class ProjectStructureDto extends ProjectStructureDtoInterface {
+export class ProjectStructureDto implements IProjectStructure {
 	@ApiProperty({ type: ProjectClassificationDto })
 	classification: ProjectClassificationDto;
 	@ApiProperty({ type: GraphDto })
 	graph: GraphDto;
 
 	constructor(values: Partial<ProjectStructureDto>) {
-		super(values);
+		if (values) {
+			this.classification = values.classification;
+			this.graph = values.graph;
+		}
 	}
 }

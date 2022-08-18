@@ -1,15 +1,10 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { GraphDto } from './projects-graph.dto';
-import {
-	CreateProjectDtoInterface,
-	EntityVisibilityDtoInterface,
-	FieldVisibilityDtoInterface,
-	ProjectDtoInterface,
-} from '@ro-ubb/api-interfaces';
+import { ICreateProject, IEntityVisibility, IFieldVisibility, IGraphReference, IProject } from '@ro-ubb/api-interfaces';
 
-export class GraphWithoutNode extends OmitType(GraphDto, ['nodes'] as const) {}
+export class GraphReference extends OmitType(GraphDto, ['nodes'] as const) implements IGraphReference {}
 
-export class ProjectDto extends ProjectDtoInterface {
+export class ProjectDto implements IProject {
 	@ApiProperty()
 	id: string;
 
@@ -19,15 +14,20 @@ export class ProjectDto extends ProjectDtoInterface {
 	@ApiProperty()
 	name: string;
 
-	@ApiProperty({ type: GraphWithoutNode })
-	graph: GraphWithoutNode;
+	@ApiProperty({ type: GraphReference })
+	graph: GraphReference;
 
 	constructor(values: Partial<ProjectDto>) {
-		super(values);
+		if (values) {
+			this.id = values.id;
+			this.name = values.name;
+			this.description = values.description;
+			this.graph = values.graph;
+		}
 	}
 }
 
-export class CreateProjectDto extends CreateProjectDtoInterface {
+export class CreateProjectDto implements ICreateProject {
 	@ApiProperty()
 	name: string;
 
@@ -38,7 +38,7 @@ export class CreateProjectDto extends CreateProjectDtoInterface {
 	graph: GraphDto;
 }
 
-export class FieldVisibilityDto extends FieldVisibilityDtoInterface {
+export class FieldVisibilityDto implements IFieldVisibility {
 	@ApiProperty()
 	id: string;
 
@@ -49,11 +49,15 @@ export class FieldVisibilityDto extends FieldVisibilityDtoInterface {
 	visibility: number;
 
 	constructor(values: Partial<FieldVisibilityDto>) {
-		super(values);
+		if (values) {
+			this.id = values.id;
+			this.fieldName = values.fieldName;
+			this.visibility = values.visibility;
+		}
 	}
 }
 
-export class EntityVisibilityDto extends EntityVisibilityDtoInterface {
+export class EntityVisibilityDto implements IEntityVisibility {
 	@ApiProperty()
 	id: string;
 
@@ -64,6 +68,11 @@ export class EntityVisibilityDto extends EntityVisibilityDtoInterface {
 	fieldsVisibility: FieldVisibilityDto[];
 
 	constructor(values: Partial<EntityVisibilityDto>) {
-		super(values);
+		if (values) {
+			this.id = values.id;
+			this.entityName = values.entityName;
+			this.fieldsVisibility =
+				values.fieldsVisibility?.map((fieldVisibility) => new FieldVisibilityDto({ ...fieldVisibility })) || [];
+		}
 	}
 }
