@@ -1,14 +1,9 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-
 import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ProjectFeatureName } from './app/modules/projects/projects.config';
+import { ProjectFeatureSwaggerName } from './app/modules/projects/projects.config';
+import { AuthFeatureSwaggerName } from './app/modules/auth/auth.config';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -17,9 +12,11 @@ async function bootstrap() {
 	const port = process.env.PORT || 3333;
 	const config = new DocumentBuilder()
 		.setTitle('Visibility Calculator API')
-		.setDescription('An API for the calculation of field visibility.')
+		.setDescription('An API for the calculation of field visibility of projects.')
 		.setVersion('1.0')
-		.addTag(ProjectFeatureName)
+		.addTag(AuthFeatureSwaggerName)
+		.addTag(ProjectFeatureSwaggerName)
+		.addBearerAuth()
 		.build();
 
 	const document = SwaggerModule.createDocument(app, config);

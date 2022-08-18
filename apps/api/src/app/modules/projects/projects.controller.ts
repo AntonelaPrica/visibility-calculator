@@ -2,13 +2,13 @@ import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } fro
 import { ProjectsService } from './projects.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { ProjectFeatureName } from './projects.config';
+import { ProjectFeatureName, ProjectFeatureSwaggerName } from './projects.config';
 import { ProjectsVisibilityService } from './projects-visibility.service';
 import { ProjectClassificationDto, ProjectStructureDto } from './dtos/projects-classification.dto';
 import { GraphDto } from './dtos/projects-graph.dto';
 import { CreateProjectDto, EntityVisibilityDto, ProjectDto } from './dtos/projects.dto';
 
-@ApiTags(ProjectFeatureName)
+@ApiTags(ProjectFeatureSwaggerName)
 @Controller(ProjectFeatureName)
 export class ProjectsController {
 	constructor(

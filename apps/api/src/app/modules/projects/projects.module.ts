@@ -6,9 +6,10 @@ import { ProjectEntity } from './entities/project.entity';
 import { NodeEntity } from './entities/node.entity';
 import { GraphEntity } from './entities/graph.entity';
 import { ProjectsVisibilityService } from './projects-visibility.service';
+import { UsersModule } from '../users/users.module';
 
 @Module({
-	imports: [TypeOrmModule.forFeature([ProjectEntity, NodeEntity, GraphEntity])],
+	imports: [UsersModule, TypeOrmModule.forFeature([ProjectEntity, NodeEntity, GraphEntity])],
 	controllers: [ProjectsController],
 	providers: [ProjectsService, ProjectsVisibilityService],
 })
