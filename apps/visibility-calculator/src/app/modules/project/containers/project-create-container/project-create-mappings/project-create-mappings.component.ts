@@ -9,7 +9,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @UntilDestroy()
 @Component({
 	selector: 'ro-ubb-project-create-mappings',
-	template: ` <div class="right-aligned">
+	template: ` <div class="right-aligned p-1">
 			<button mat-raised-button matStepperNext color="primary" (click)="onNext()">Next</button>
 		</div>
 		<form novalidate>

@@ -4,7 +4,7 @@ import { ProjectFormStep, UploadFileStepPayload } from '../../../types/project-f
 
 @Component({
 	selector: 'ro-ubb-project-upload',
-	template: ` <div class="right-aligned">
+	template: ` <div class="right-aligned p-1">
 			<button
 				mat-raised-button
 				matStepperNext

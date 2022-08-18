@@ -9,7 +9,7 @@ import { ProjectEntityVisibilityDto } from '../../../types/project-visibility.ty
 				<mat-expansion-panel-header>
 					<mat-panel-title>{{ entityVisibility.entityName }}</mat-panel-title>
 				</mat-expansion-panel-header>
-				<table mat-table [dataSource]="entityVisibility.fieldsVisibility" class="mat-elevation-z8" style="width: 40%">
+				<table mat-table [dataSource]="entityVisibility.fieldsVisibility" class="mat-elevation-z8 w-40">
 					<ng-container matColumnDef="fieldName">
 						<th mat-header-cell *matHeaderCellDef>Attribute</th>
 						<td mat-cell *matCellDef="let attribute">{{ attribute.fieldName }}</td>

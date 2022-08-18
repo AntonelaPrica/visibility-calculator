@@ -20,7 +20,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 @Component({
 	selector: 'ro-ubb-project-verifiy-structure',
 	template: `
-		<div class="right-aligned">
+		<div class="right-aligned p-1">
 			<button mat-raised-button matStepperNext color="primary" (click)="onNext()">Next</button>
 		</div>
 		<div class="grid-container" *ngFor="let dataSource of this.dataSources">
