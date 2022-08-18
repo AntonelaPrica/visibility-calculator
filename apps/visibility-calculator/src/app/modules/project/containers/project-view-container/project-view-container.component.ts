@@ -1,9 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ProjectDto } from '../../types/project.types';
-import { ProjectEntityVisibilityDto } from '../../types/project-visibility.types';
-import { GraphDto } from '../../types/project-graph.types';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
+import { IEntityVisibility, IGraph, IProject } from '@ro-ubb/api-interfaces';
 
 @Component({
 	selector: 'ro-ubb-project-view-container',
@@ -27,10 +25,10 @@ import { Router } from '@angular/router';
 	styleUrls: ['project-view-container.component.scss'],
 })
 export class ProjectViewContainerComponent {
-	@Input() project: ProjectDto;
+	@Input() project: IProject;
 
-	projectGraph: GraphDto;
-	projectVisibility: ProjectEntityVisibilityDto[] = [];
+	projectGraph: IGraph;
+	projectVisibility: IEntityVisibility[] = [];
 
 	constructor(private projectService: ProjectService, private router: Router) {
 		this.project = this.router.getCurrentNavigation().extras.state['projectDto'];

@@ -9,12 +9,11 @@ import {
 } from '../../types/project-form.types';
 import { ProjectService } from '../../services/project.service';
 import { cloneDeep as _cloneDeep } from 'lodash';
-import { ProjectStructureDto } from '../../types/project-structure.types';
 import { GraphUtils } from '../../utils/graph.utils';
-import { ProjectWithGraphDto } from '../../types/project.types';
 import { Router } from '@angular/router';
 import { ProjectRoutesTypes } from '../../types/project-routes.types';
 import { AppRoutePaths } from '../../../../core/types/app-routes.types';
+import { ICreateProject, IProjectStructure } from '@ro-ubb/api-interfaces';
 
 @Component({
 	selector: 'ro-ubb-project-form-container',
@@ -62,7 +61,7 @@ export class ProjectFormContainerComponent implements OnInit {
 	step = 0;
 	formGroup: FormGroup = null;
 	availableSteps = ProjectFormStep;
-	originalProjectStructure: ProjectStructureDto;
+	originalProjectStructure: IProjectStructure;
 
 	constructor(
 		private projectService: ProjectService,
@@ -135,7 +134,7 @@ export class ProjectFormContainerComponent implements OnInit {
 	}
 
 	async handleSubmit() {
-		const projectToSave: ProjectWithGraphDto = {
+		const projectToSave: ICreateProject = {
 			name: this.formGroup.get('projectTitle')?.value,
 			description: this.formGroup.get('projectDescription')?.value,
 			graph: this.formGroup.get('projectStructure').value?.graph,

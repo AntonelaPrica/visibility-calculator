@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { Edge, Node } from '@swimlane/ngx-graph';
-import { GraphDto } from '../../types/project-graph.types';
 import { isEqual as _isEqual, isNil as _isNil } from 'lodash';
+import { IGraph } from '@ro-ubb/api-interfaces';
 
 @UntilDestroy()
 @Component({
@@ -48,7 +48,7 @@ import { isEqual as _isEqual, isNil as _isNil } from 'lodash';
 	styleUrls: [],
 })
 export class GraphContainerComponent implements OnChanges {
-	@Input() graph: GraphDto;
+	@Input() graph: IGraph;
 
 	nodes: Node[] = [];
 	links: Edge[] = [];

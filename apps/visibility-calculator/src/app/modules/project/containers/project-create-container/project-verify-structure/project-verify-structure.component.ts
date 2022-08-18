@@ -9,12 +9,12 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { ProjectStructureDto, TreeNode } from '../../../types/project-structure.types';
 import { ProjectFormStep, VerifyStructureStepPayload } from '../../../types/project-form.types';
 import { SelectionModel } from '@angular/cdk/collections';
 import { cloneDeep as _cloneDeep } from 'lodash';
-import { ProjectClassificationDto } from '../../../types/project-classification.types';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IProjectClassification, IProjectStructure } from '@ro-ubb/api-interfaces';
+import { TreeNode } from '../../../types/project-structure.types';
 
 @UntilDestroy()
 @Component({
@@ -35,12 +35,12 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class ProjectVerifyStructureComponent implements OnInit {
 	@Input() form: FormGroup;
-	@Input() originalProjectStructure: ProjectStructureDto;
+	@Input() originalProjectStructure: IProjectStructure;
 	@Output() verifiedStructure: EventEmitter<VerifyStructureStepPayload> =
 		new EventEmitter<VerifyStructureStepPayload>();
 
 	dataSources: MatTreeNestedDataSource<TreeNode>[] = [];
-	modifiedProjectClassification: ProjectClassificationDto = { controllers: [], entities: [], dtos: [] };
+	modifiedProjectClassification: IProjectClassification = { controllers: [], entities: [], dtos: [] };
 
 	constructor(private changeDetectorRef: ChangeDetectorRef) {}
 

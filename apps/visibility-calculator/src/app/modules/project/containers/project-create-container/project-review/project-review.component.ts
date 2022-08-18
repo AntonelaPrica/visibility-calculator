@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { GraphDto } from '../../../types/project-graph.types';
 import { ProjectFormStep, ProjectSubmitPayload } from '../../../types/project-form.types';
+import { IGraph } from '@ro-ubb/api-interfaces';
 
 @UntilDestroy()
 @Component({
@@ -21,7 +21,7 @@ export class ProjectReviewComponent implements OnInit {
 	@Input() form: FormGroup;
 	@Output() submitProject: EventEmitter<ProjectSubmitPayload> = new EventEmitter<ProjectSubmitPayload>();
 
-	graph: GraphDto = null;
+	graph: IGraph | null = null;
 
 	ngOnInit(): void {
 		this.form.valueChanges.pipe(untilDestroyed(this)).subscribe((updatedForm) => {

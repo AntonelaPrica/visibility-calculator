@@ -1,9 +1,9 @@
 import { MappingStepPayload } from '../types/project-form.types';
-import { GraphDto } from '../types/project-graph.types';
 import { cloneDeep as _cloneDeep, isNil as _isNil } from 'lodash';
+import { IGraph } from '@ro-ubb/api-interfaces';
 
 export class GraphUtils {
-	static addDtoMappingsToGraph(mappingPayload: MappingStepPayload, graph: GraphDto): GraphDto {
+	static addDtoMappingsToGraph(mappingPayload: MappingStepPayload, graph: IGraph): IGraph {
 		const clonedGraph = _cloneDeep(graph);
 		const clonedMappingPayload = _cloneDeep(mappingPayload);
 		const mappings = clonedMappingPayload.dtoMappings;

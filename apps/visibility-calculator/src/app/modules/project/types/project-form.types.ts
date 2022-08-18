@@ -1,5 +1,5 @@
-import { ProjectClassificationDto } from './project-classification.types';
 import { TreeData } from 'mat-tree-select-input';
+import { IProjectClassification } from '@ro-ubb/api-interfaces';
 
 export enum ProjectFormStep {
 	UploadFile = 'UploadFile',
@@ -15,7 +15,7 @@ export class UploadFileStepPayload {
 
 export class VerifyStructureStepPayload {
 	type: ProjectFormStep.VerifyStructure;
-	projectClassification: ProjectClassificationDto;
+	projectClassification: IProjectClassification;
 }
 
 export class MappingStepPayload {

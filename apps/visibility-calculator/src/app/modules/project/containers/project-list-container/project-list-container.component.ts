@@ -3,7 +3,7 @@ import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
 import { AppRoutePaths } from '../../../../core/types/app-routes.types';
 import { ProjectRoutesTypes } from '../../types/project-routes.types';
-import { ProjectDto } from '../../types/project.types';
+import { IProject } from '@ro-ubb/api-interfaces';
 
 @Component({
 	selector: 'ro-ubb-project-list-container',
@@ -11,7 +11,7 @@ import { ProjectDto } from '../../types/project.types';
 	styleUrls: ['project-list-container.component.scss'],
 })
 export class ProjectListContainerComponent implements OnInit {
-	projects: ProjectDto[] = [];
+	projects: IProject[] = [];
 
 	constructor(private projectService: ProjectService, private router: Router) {}
 
@@ -23,7 +23,7 @@ export class ProjectListContainerComponent implements OnInit {
 		this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.Create]);
 	}
 
-	openProject(projectDto: ProjectDto) {
+	openProject(projectDto: IProject) {
 		this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.View, projectDto?.id], {
 			state: { projectDto: projectDto },
 		});

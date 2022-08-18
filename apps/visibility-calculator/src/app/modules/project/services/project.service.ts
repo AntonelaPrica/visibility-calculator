@@ -1,39 +1,42 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { ProjectStructureDto } from '../types/project-structure.types';
-import { ProjectDto, ProjectWithGraphDto } from '../types/project.types';
-import { GraphDto } from '../types/project-graph.types';
-import { ProjectClassificationDto } from '../types/project-classification.types';
-import { ProjectEntityVisibilityDto } from '../types/project-visibility.types';
+import {
+	ICreateProject,
+	IEntityVisibility,
+	IGraph,
+	IProject,
+	IProjectClassification,
+	IProjectStructure,
+} from '@ro-ubb/api-interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
 	constructor(private http: HttpClient) {}
 
-	async parseProject(file: File): Promise<ProjectStructureDto> {
+	async parseProject(file: File): Promise<IProjectStructure> {
 		const formData = new FormData();
 		formData.append('file', file);
-		return firstValueFrom(this.http.post<ProjectStructureDto>('api/project/parse', formData));
+		return firstValueFrom(this.http.post<IProjectStructure>('api/project/parse', formData));
 	}
 
-	async getProjects(): Promise<ProjectDto[]> {
-		return firstValueFrom(this.http.get<ProjectDto[]>('api/project'));
+	async getProjects(): Promise<IProject[]> {
+		return firstValueFrom(this.http.get<IProject[]>('api/project'));
 	}
 
-	async getNewGraphFromClassification(projectClassification: ProjectClassificationDto): Promise<ProjectStructureDto> {
-		return firstValueFrom(this.http.post<ProjectStructureDto>('api/project/graph', projectClassification));
+	async getNewGraphFromClassification(projectClassification: IProjectClassification): Promise<IProjectStructure> {
+		return firstValueFrom(this.http.post<IProjectStructure>('api/project/graph', projectClassification));
 	}
 
-	async saveProject(projectToSave: ProjectWithGraphDto): Promise<ProjectDto> {
-		return firstValueFrom(this.http.post<ProjectDto>('api/project', projectToSave));
+	async saveProject(projectToSave: ICreateProject): Promise<IProject> {
+		return firstValueFrom(this.http.post<IProject>('api/project', projectToSave));
 	}
 
-	async getProjectVisibility(projectId: string): Promise<ProjectEntityVisibilityDto[]> {
-		return firstValueFrom(this.http.get<ProjectEntityVisibilityDto[]>(`api/project/${projectId}/visibility`));
+	async getProjectVisibility(projectId: string): Promise<IEntityVisibility[]> {
+		return firstValueFrom(this.http.get<IEntityVisibility[]>(`api/project/${projectId}/visibility`));
 	}
 
-	async getProjectGraph(projectId: string): Promise<GraphDto> {
-		return firstValueFrom(this.http.get<GraphDto>(`api/project/${projectId}/graph`));
+	async getProjectGraph(projectId: string): Promise<IGraph> {
+		return firstValueFrom(this.http.get<IGraph>(`api/project/${projectId}/graph`));
 	}
 }

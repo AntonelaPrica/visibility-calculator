@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { GraphDto } from '../../../types/project-graph.types';
+import { IGraph } from '@ro-ubb/api-interfaces';
 
 @Component({
 	selector: 'ro-ubb-project-graph-tab',
@@ -7,5 +7,5 @@ import { GraphDto } from '../../../types/project-graph.types';
 	styleUrls: [],
 })
 export class ProjectGraphTabComponent {
-	@Input() projectGraph: GraphDto;
+	@Input() projectGraph: IGraph;
 }

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { ProjectEntityVisibilityDto } from '../../../types/project-visibility.types';
+import { IEntityVisibility } from '@ro-ubb/api-interfaces';
 
 @Component({
 	selector: 'ro-ubb-project-visibility-tab',
@@ -28,7 +28,7 @@ import { ProjectEntityVisibilityDto } from '../../../types/project-visibility.ty
 	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectVisibilityTabComponent {
-	@Input() projectVisibility: ProjectEntityVisibilityDto[];
+	@Input() projectVisibility: IEntityVisibility[];
 
 	displayedColumns: string[] = ['fieldName', 'visibility'];
 }

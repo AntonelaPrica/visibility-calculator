@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { TreeData } from 'mat-tree-select-input';
-import { ProjectDataClassificationDto } from '../../../types/project-classification.types';
 import { MappingStepPayload, ProjectFormStep } from '../../../types/project-form.types';
 import { cloneDeep as _cloneDeep } from 'lodash';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
+import { IProjectDataClassification } from '@ro-ubb/api-interfaces';
 
 @UntilDestroy()
 @Component({
@@ -34,7 +34,7 @@ export class ProjectCreateMappingsComponent implements OnInit {
 	@Input() form: FormGroup;
 	@Output() dtoMappingsToFields: EventEmitter<MappingStepPayload> = new EventEmitter<MappingStepPayload>();
 
-	dtos: ProjectDataClassificationDto[] = [];
+	dtos: IProjectDataClassification[] = [];
 	dtoMapping: { [key: string]: TreeData[] } = {};
 	options: TreeData[] = [];
 
@@ -58,7 +58,7 @@ export class ProjectCreateMappingsComponent implements OnInit {
 		});
 	}
 
-	onSelect(value: TreeData[], dto: ProjectDataClassificationDto): void {
+	onSelect(value: TreeData[], dto: IProjectDataClassification): void {
 		this.dtoMapping[dto.id] = value;
 	}
 
