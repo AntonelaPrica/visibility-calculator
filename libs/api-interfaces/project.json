@@ -1,6 +1,7 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "libs/api-interfaces",
   "sourceRoot": "libs/api-interfaces/src",
+  "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
@@ -11,16 +12,6 @@
         "lintFilePatterns": [
           "libs/api-interfaces/**/*.ts"
         ]
-      }
-    },
-    "test": {
-      "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/libs/api-interfaces"
-      ],
-      "options": {
-        "jestConfig": "libs/api-interfaces/jest.config.ts",
-        "passWithNoTests": true
       }
     }
   },

@@ -16,6 +16,6 @@ An API for the calculation of field visibility intended as a Dissertation Projec
 ## Setup
 
 - clone the project
-- run `npm install`.
+- run `yarn install`.
 - go to `/docker` folder and run `docker-compose up`.
-- run `npm run start`.
+- run `yarn start`.

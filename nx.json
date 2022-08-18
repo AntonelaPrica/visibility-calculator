@@ -1,7 +1,11 @@
 {
-  "npmScope": "ro-ubb",
+  "npmScope": "visibility-calculator",
   "affected": {
     "defaultBase": "master"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular",
+    "packageManager": "yarn"
   },
   "implicitDependencies": {
     "package.json": {
@@ -12,19 +16,25 @@
   },
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/nx-cloud",
+      "runner": "nx/tasks-runners/default",
       "options": {
         "cacheableOperations": [
           "build",
           "lint",
           "test",
           "e2e"
-        ],
-        "accessToken": "MmI1OWY3ZWUtYmJhNi00MzI5LWIwMDgtMzY4ZTcyNzkzOGQ3fHJlYWQtd3JpdGU="
+        ]
       }
     }
   },
-  "defaultProject": "visibility-calculator-api",
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
   "generators": {
     "@nrwl/angular:application": {
       "style": "scss",
@@ -40,12 +50,5 @@
       "style": "scss"
     }
   },
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "targetDefaults": {
-    "build": {
-      "dependsOn": [
-        "^build"
-      ]
-    }
-  }
+  "defaultProject": "visibility-calculator"
 }
