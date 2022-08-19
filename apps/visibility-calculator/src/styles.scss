@@ -1,15 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
-
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+$primary-color: #673ab7;
 
 .full-page-height {
   height: 100vh;
   width: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-centered {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-end {
+  justify-content: end;
+  align-items: center;
+}
+
+.text-centered {
+  text-align: center;
 }
 
 .h-100 {
   height: 100%;
+}
+
+.w-100 {
+  width: 100%;
 }
 
 .w-40 {
@@ -27,4 +51,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .m-1 {
   margin: 1rem;
+}
+
+.m-0 {
+  margin: 0!important;
+}
+
+.p-0 {
+  padding: 0!important;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.text-primary {
+  color: $primary-color;
 }

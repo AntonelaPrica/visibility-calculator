@@ -1,0 +1,37 @@
+<mat-card class='login-card'>
+  <mat-card-title class='text-centered p-1 mat-h1'>
+    User Authentication
+  </mat-card-title>
+  <mat-card-content *ngIf='formGroup'>
+    <div [formGroup]='formGroup' class='login-form-container p-1'>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type='text' matInput placeholder='john@gmail.com' formControlName='email'/>
+        <mat-error *ngIf="formGroup.get('email').hasError('email') && !formGroup.get('email').hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('email').hasError('required')">
+          Email is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type='password' matInput placeholder='**********' formControlName='password'/>
+        <mat-error *ngIf="formGroup.get('password').hasError('minlength') && !formGroup.get('password').hasError('required')">
+          Please enter a password with minimum length of 4
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('password').hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color='primary' [disabled]='!formGroup.valid' (click)='onLogin()'>LOGIN</button>
+      <mat-error *ngIf="hasError">
+        Something went wrong during the authentication process. Please try signing in again.
+      </mat-error>
+      <a class='text-centered p-1 m-1 mat-h4' routerLink='/register'>Register an account</a>
+    </div>
+  </mat-card-content>
+</mat-card>

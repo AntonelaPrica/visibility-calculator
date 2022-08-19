@@ -1,14 +1,32 @@
-.flex-end-container{
-  display: flex;
-  justify-content: flex-end;
+.project-card {
+  height: 200px;
+  background: var(---ffffff-white) 0 0 no-repeat padding-box;
+  box-shadow: 0 3px 20px #00000029;
+  opacity: 1;
+}
+
+.project-card-button-container {
+  bottom: 12px;
+  position: absolute;
+  right: 12px;
+}
+
+.end-container{
+  justify-self: end;
+  align-self: center;
 }
 
 .small-margin{
   margin: 1%;
 }
 
+.grid-container-header {
+  display: grid;
+  column-gap: 2%;
+  grid-template-columns: 2fr 1fr;
+}
 
-.grid-container {
+.grid-container-content {
   display: grid;
   column-gap: 2%;
   row-gap: 5%;

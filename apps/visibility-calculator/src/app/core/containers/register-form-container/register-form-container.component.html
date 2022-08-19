@@ -1,0 +1,53 @@
+<mat-card class='register-card'>
+  <mat-card-title class='text-centered p-1 mat-h1'>
+    User Registration
+  </mat-card-title>
+  <mat-card-content *ngIf='formGroup'>
+    <div [formGroup]='formGroup' class='register-form-container p-1'>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input type='text' matInput placeholder='john@gmail.com' formControlName='email'/>
+        <mat-error *ngIf="formGroup.get('email').hasError('email') && !formGroup.get('email').hasError('required')">
+          Please enter a valid email address
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('email').hasError('required')">
+          Email is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type='password' matInput placeholder='**********' formControlName='password'/>
+        <mat-error *ngIf="formGroup.get('password').hasError('minlength') && !formGroup.get('password').hasError('required')">
+          Please enter a password with minimum length of 4
+        </mat-error>
+        <mat-error *ngIf="formGroup.get('password').hasError('required')">
+          Password is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input type='text' matInput placeholder='John' formControlName='firstName'/>
+        <mat-error *ngIf="formGroup.get('firstName').hasError('required')">
+          First Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input type='text' matInput placeholder='Smith' formControlName='lastName'/>
+        <mat-error *ngIf="formGroup.get('lastName').hasError('required')">
+          Last Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color='primary' [disabled]='!formGroup.valid' (click)='onRegister()'>REGISTER</button>
+      <mat-error *ngIf="hasError">
+        Something went wrong during the registration process. Please try again.
+      </mat-error>
+      <a class='text-centered p-1 m-1 mat-h4' routerLink='/login'>Sign in into your account</a>
+    </div>
+  </mat-card-content>
+</mat-card>

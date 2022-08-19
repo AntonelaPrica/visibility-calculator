@@ -1,17 +1,25 @@
-<div class='small-margin'>
-  <div class='flex-end-container'>
-    <button mat-raised-button color='primary' class='flex-end-container' (click)='onCreateProject()'>Create</button>
+<div class='small-margin p-1'>
+  <div class='grid-container-header'>
+    <div>
+    </div>
+    <div class='end-container'>
+      <button mat-raised-button color='primary' class='flex-end-container' (click)='onCreateProject()'>Create</button>
+    </div>
   </div>
-  <div class="grid-container">
+  <div class='grid-container-content p-1'>
     <div *ngFor='let project of projects'>
-      <mat-card class='mat-elevation-z2'>
+      <mat-card class='project-card'>
         <mat-card-title>{{project.name}}</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-          {{project.description}}
+          <p class='p-1'>
+            {{project.description}}
+          </p>
         </mat-card-content>
-        <mat-card-actions class='flex-end-container'>
-          <button mat-raised-button color='primary' (click)="openProject(project)">Open</button>
+        <mat-card-actions>
+          <div class='project-card-button-container'>
+            <button mat-flat-button color='primary' (click)='openProject(project)'>Open</button>
+          </div>
         </mat-card-actions>
       </mat-card>
     </div>

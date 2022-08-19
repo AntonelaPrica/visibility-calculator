@@ -1,1 +1,16 @@
-<mat-toolbar color='primary'></mat-toolbar>
+<mat-toolbar color='none' class='mat-elevation-z3' *ngIf='isLoggedIn'>
+  <h1 class='mat-headline clickable m-0 p-0'  routerLink='/projects'>Visibility Calculator</h1>
+  <span class="navbar-spacer"></span>
+
+  <mat-chip-list aria-label="Authenticated User" *ngIf='currentUser'>
+    <mat-chip [selectable]='false' class='user-chip' [disableRipple]='true' [removable]='false'>
+      {{currentUser.firstName + ' ' + currentUser.lastName}}
+      <button mat-icon-button aria-label="Options Button" [matMenuTriggerFor]="menu">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)='onLogout()'>Logout</button>
+      </mat-menu>
+    </mat-chip>
+  </mat-chip-list>
+</mat-toolbar>

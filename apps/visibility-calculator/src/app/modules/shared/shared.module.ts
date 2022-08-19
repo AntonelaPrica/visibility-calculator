@@ -20,12 +20,13 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { MatMenuModule } from '@angular/material/menu';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
 	declarations: [],
 	imports: [
 		CommonModule,
-		HttpClientModule,
 		ReactiveFormsModule,
 		MatAutocompleteModule,
 		MatButtonModule,
@@ -44,12 +45,12 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
 		MatTreeModule,
 		MatStepperModule,
 		MatGridListModule,
+		MatMenuModule,
 		NgxGraphModule,
 	],
-	providers: [],
+	providers: [{ provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }],
 	exports: [
 		CommonModule,
-		HttpClientModule,
 		ReactiveFormsModule,
 		MatAutocompleteModule,
 		MatButtonModule,
@@ -68,6 +69,7 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
 		MatTreeModule,
 		MatStepperModule,
 		MatGridListModule,
+		MatMenuModule,
 		NgxGraphModule,
 	],
 })

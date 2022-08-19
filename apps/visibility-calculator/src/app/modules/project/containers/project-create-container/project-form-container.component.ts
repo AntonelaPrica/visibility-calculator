@@ -12,7 +12,7 @@ import { cloneDeep as _cloneDeep } from 'lodash';
 import { GraphUtils } from '../../utils/graph.utils';
 import { Router } from '@angular/router';
 import { ProjectRoutesTypes } from '../../types/project-routes.types';
-import { AppRoutePaths } from '../../../../core/types/app-routes.types';
+import { AppRoutePaths } from '../../../shared/types/app-routes.types';
 import { ICreateProject, IProjectStructure } from '@ro-ubb/api-interfaces';
 
 @Component({

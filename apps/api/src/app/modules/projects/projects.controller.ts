@@ -1,13 +1,15 @@
-import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ProjectFeatureName, ProjectFeatureSwaggerName } from './projects.config';
 import { ProjectsVisibilityService } from './projects-visibility.service';
 import { ProjectClassificationDto, ProjectStructureDto } from './dtos/projects-classification.dto';
 import { GraphDto } from './dtos/projects-graph.dto';
 import { CreateProjectDto, EntityVisibilityDto, ProjectDto } from './dtos/projects.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
+@ApiBearerAuth()
 @ApiTags(ProjectFeatureSwaggerName)
 @Controller(ProjectFeatureName)
 export class ProjectsController {
@@ -16,6 +18,7 @@ export class ProjectsController {
 		private readonly projectsVisibilityService: ProjectsVisibilityService
 	) {}
 
+	@UseGuards(JwtAuthGuard)
 	@Post('parse')
 	@UseInterceptors(FileInterceptor('file', { dest: './upload' }))
 	@ApiConsumes('multipart/form-data')
@@ -38,6 +41,7 @@ export class ProjectsController {
 		return this.projectService.getProjectStructure(file);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get(':id/graph')
 	@ApiOkResponse({
 		type: GraphDto,
@@ -46,6 +50,7 @@ export class ProjectsController {
 		return this.projectService.getGraphByProjectId(projectId);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Post('graph')
 	@ApiBody({
 		type: ProjectClassificationDto,
@@ -59,6 +64,7 @@ export class ProjectsController {
 		return this.projectService.getProjectClassification(projectClassificationDto);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get(':id/visibility')
 	@ApiOkResponse({
 		type: [EntityVisibilityDto],
@@ -67,6 +73,7 @@ export class ProjectsController {
 		return this.projectsVisibilityService.calculateVisibility(projectId);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get(':id')
 	@ApiOkResponse({
 		type: ProjectDto,
@@ -75,6 +82,7 @@ export class ProjectsController {
 		return this.projectService.getById(id);
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Get()
 	@ApiOkResponse({
 		type: [ProjectDto],
@@ -83,6 +91,7 @@ export class ProjectsController {
 		return this.projectService.getAll();
 	}
 
+	@UseGuards(JwtAuthGuard)
 	@Post()
 	@ApiBody({
 		type: CreateProjectDto,

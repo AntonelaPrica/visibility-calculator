@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
 import { Router } from '@angular/router';
-import { AppRoutePaths } from '../../../../core/types/app-routes.types';
+import { AppRoutePaths } from '../../../shared/types/app-routes.types';
 import { ProjectRoutesTypes } from '../../types/project-routes.types';
 import { IProject } from '@ro-ubb/api-interfaces';
 
@@ -19,11 +19,11 @@ export class ProjectListContainerComponent implements OnInit {
 		this.projects = await this.projectService.getProjects();
 	}
 
-	onCreateProject() {
+	onCreateProject(): void {
 		this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.Create]);
 	}
 
-	openProject(projectDto: IProject) {
+	openProject(projectDto: IProject): void {
 		this.router.navigate([AppRoutePaths.Projects, ProjectRoutesTypes.View, projectDto?.id], {
 			state: { projectDto: projectDto },
 		});

@@ -1,0 +1,14 @@
+.login-card {
+  width: 421px;
+  min-height: 460px;
+  background: var(---ffffff-white) 0 0 no-repeat padding-box;
+  box-shadow: 0 3px 20px #00000029;
+  opacity: 1;
+}
+
+.login-form-container {
+  display: grid;
+  column-gap: 2%;
+  row-gap: 2%;
+  grid-template-columns: 1fr;
+}

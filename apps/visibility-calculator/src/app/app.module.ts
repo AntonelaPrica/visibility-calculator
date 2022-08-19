@@ -9,7 +9,9 @@ import { LoginFormContainerComponent } from './core/containers/login-form-contai
 import { RegisterFormContainerComponent } from './core/containers/register-form-container/register-form-container.component';
 import { LoginPageComponent } from './core/pages/login-page/login-page.component';
 import { RegisterPageComponent } from './core/pages/register-page/register-page.component';
-import {NavbarContainerComponent} from "./core/containers/navbar-container/navbar-container.component";
+import { NavbarContainerComponent } from './core/containers/navbar-container/navbar-container.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './modules/shared/auth/interceptors/auth.interceptor';
 
 @NgModule({
 	declarations: [
@@ -18,10 +20,16 @@ import {NavbarContainerComponent} from "./core/containers/navbar-container/navba
 		RegisterFormContainerComponent,
 		LoginPageComponent,
 		RegisterPageComponent,
-    NavbarContainerComponent
+		NavbarContainerComponent,
 	],
-	imports: [BrowserModule, SharedModule, AppRoutingModule, BrowserAnimationsModule],
-	providers: [],
+	imports: [BrowserModule, HttpClientModule, BrowserAnimationsModule, SharedModule, AppRoutingModule],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: AuthInterceptor,
+			multi: true,
+		},
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}
