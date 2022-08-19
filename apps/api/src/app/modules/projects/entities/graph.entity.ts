@@ -6,7 +6,7 @@ export class GraphEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
-	@OneToMany(() => NodeEntity, (node) => node.graph, { nullable: true })
+	@OneToMany(() => NodeEntity, (node) => node.graph, { nullable: true, onDelete: 'CASCADE' })
 	nodes: NodeEntity[];
 
 	constructor(values: Partial<GraphEntity>) {

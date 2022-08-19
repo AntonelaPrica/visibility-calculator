@@ -6,7 +6,7 @@ import { LoadingManagerService } from '../../../modules/shared/loading-manager.s
 @Component({
 	selector: 'ro-ubb-loading-overlay-container',
 	template: `<div class="page-overlay" *ngIf="isLoading">
-		<div class="d-flex h-100 flex-centered"><mat-spinner></mat-spinner></div>
+		<div class="d-flex h-100 flex-centered"><mat-spinner strokeWidth="5" diameter="100"></mat-spinner></div>
 	</div>`,
 	styleUrls: ['loading-overlay-container.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

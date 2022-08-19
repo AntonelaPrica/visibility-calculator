@@ -1,4 +1,15 @@
-import { Body, Controller, Get, Param, Post, Request, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Post,
+	Request,
+	UploadedFile,
+	UseGuards,
+	UseInterceptors,
+} from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -101,5 +112,12 @@ export class ProjectsController {
 	})
 	async saveProject(@Body() projectDto: CreateProjectDto, @Request() request): Promise<ProjectDto> {
 		return this.projectService.saveProject(projectDto, request.user.userId);
+	}
+
+	@UseGuards(JwtAuthGuard)
+	@Delete(':id')
+	@ApiOkResponse({})
+	async removeById(@Param('id') id: string, @Request() request): Promise<void> {
+		return this.projectService.removeById(id, request.user.userId);
 	}
 }

@@ -13,7 +13,7 @@ export class ProjectEntity {
 	@Column({ nullable: true })
 	description: string;
 
-	@OneToOne(() => GraphEntity)
+	@OneToOne(() => GraphEntity, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	graph: GraphEntity;
 

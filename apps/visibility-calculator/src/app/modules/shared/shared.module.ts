@@ -17,14 +17,15 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { HttpClientModule } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { MatMenuModule } from '@angular/material/menu';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { ConfirmationDialogComponent } from './components/dialogs/confirmation-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-	declarations: [],
+	declarations: [ConfirmationDialogComponent],
 	imports: [
 		CommonModule,
 		ReactiveFormsModule,
@@ -47,6 +48,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 		MatGridListModule,
 		MatMenuModule,
 		NgxGraphModule,
+		MatDialogModule,
 	],
 	providers: [{ provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }],
 	exports: [
@@ -71,6 +73,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 		MatGridListModule,
 		MatMenuModule,
 		NgxGraphModule,
+		MatDialogModule,
 	],
 })
 export class SharedModule {}

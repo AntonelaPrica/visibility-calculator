@@ -1,7 +1,7 @@
 .page-overlay {
   position: absolute;
-  opacity: 0.2;
-  background-color: gray;
+  box-shadow: none;
+  background: rgba(0, 0, 0, 0.1);
   height: 100vh;
   width: 100%;
 }

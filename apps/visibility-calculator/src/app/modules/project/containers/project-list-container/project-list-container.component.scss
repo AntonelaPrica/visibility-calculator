@@ -6,7 +6,13 @@
   opacity: 1;
 }
 
-.project-card-button-container {
+.project-card-remove-open {
+  bottom: 12px;
+  position: absolute;
+  left: 12px;
+}
+
+.project-card-button-open {
   bottom: 12px;
   position: absolute;
   right: 12px;

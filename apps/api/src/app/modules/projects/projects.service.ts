@@ -40,6 +40,19 @@ export class ProjectsService {
 		return ProjectsMappers.mapToProjectDto(foundProject);
 	}
 
+	async removeById(id: string, currentUserId: string): Promise<void> {
+		try {
+			const foundProject = await this.projectEntityRepository.findOne({
+				where: { id, user: { id: currentUserId } },
+				relations: ['graph'],
+			});
+			await this.projectEntityRepository.remove(foundProject);
+		} catch (error) {
+			Logger.error(`ProjectsService.removeById ${error}`);
+			throw new BadRequestException(`The project ${id} could not be removed.`);
+		}
+	}
+
 	async getGraphByProjectId(projectId: string, currentUserId: string): Promise<GraphDto> {
 		try {
 			const project = await this.getById(projectId, currentUserId);

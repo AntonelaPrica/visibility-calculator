@@ -3,7 +3,7 @@
     <div>
     </div>
     <div class='end-container'>
-      <button mat-raised-button color='primary' class='flex-end-container' (click)='onCreateProject()'>Create</button>
+      <button mat-raised-button color='primary' class='flex-end-container' (click)='onCreateProject()'>+ Add Project</button>
     </div>
   </div>
   <div class='grid-container-content p-1'>
@@ -17,7 +17,12 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <div class='project-card-button-container'>
+          <div class='project-card-remove-open'>
+            <button mat-icon-button color='none' aria-label="Remove project button" (click)='onRemoveProject(project)'>
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <div class='project-card-button-open'>
             <button mat-flat-button color='primary' (click)='openProject(project)'>Open</button>
           </div>
         </mat-card-actions>
