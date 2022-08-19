@@ -1,18 +1,19 @@
 import { IUser, IUserAccessToken, IUserLogin, IUserRegister } from '@ro-ubb/api-interfaces';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, Observable, of, ReplaySubject } from 'rxjs';
+import { catchError, EMPTY, finalize, Observable, of, ReplaySubject } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { httpOptionsFormUrlEncoded, httpOptionsJson } from '../../types/http-options.types';
 import { defaultTo as _defaultTo } from 'lodash';
 import { tap } from 'rxjs/operators';
 import { isNil as _isNil } from 'lodash';
 import { STORAGE_AUTHORIZATION_KEY } from '../types/auth.types';
+import { LoadingManagerService } from '../../loading-manager.service';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class AuthService {
-	constructor(private httpClient: HttpClient) {}
+	constructor(private http: HttpClient, private loadingManager: LoadingManagerService) {}
 	private _isLoggedIn = false;
 	private _currentUser: IUser = null;
 	private _authError: boolean = null;
@@ -51,7 +52,9 @@ export class AuthService {
 
 	login(payload: IUserLogin): Observable<IUserAccessToken | null> {
 		const body = new HttpParams().set('username', payload.username).set('password', payload.password);
-		return this.httpClient.post<IUserAccessToken>(`api/auth/login`, body, httpOptionsFormUrlEncoded).pipe(
+
+		this.loadingManager.isLoading = true;
+		return this.http.post<IUserAccessToken>(`api/auth/login`, body, httpOptionsFormUrlEncoded).pipe(
 			tap((value) => {
 				this.setIsLoggedIn(true, value.access_token);
 			}),
@@ -59,12 +62,16 @@ export class AuthService {
 				this.setIsLoggedIn(false, null);
 				this.authError = true;
 				return of(null);
-			})
+			}),
+			finalize(() => (this.loadingManager.isLoading = false))
 		);
 	}
 
 	register(payload: IUserRegister): Observable<IUser> {
-		return this.httpClient.post<IUser>(`api/auth/register`, { ...payload }, httpOptionsJson);
+		this.loadingManager.isLoading = true;
+		return this.http
+			.post<IUser>(`api/auth/register`, { ...payload }, httpOptionsJson)
+			.pipe(finalize(() => (this.loadingManager.isLoading = false)));
 	}
 
 	logout(): Observable<null> {
@@ -73,10 +80,16 @@ export class AuthService {
 	}
 
 	getUserById(id: string): Observable<IUser> {
-		return this.httpClient.get<IUser>(`api/auth/users/${id}`, httpOptionsJson);
+		this.loadingManager.isLoading = true;
+		return this.http
+			.get<IUser>(`api/auth/users/${id}`, httpOptionsJson)
+			.pipe(finalize(() => (this.loadingManager.isLoading = false)));
 	}
 
 	getCurrentUser(): Observable<IUser> {
-		return this.httpClient.get<IUser>(`api/auth/users/me`, httpOptionsJson);
+		this.loadingManager.isLoading = true;
+		return this.http
+			.get<IUser>(`api/auth/users/me`, httpOptionsJson)
+			.pipe(finalize(() => (this.loadingManager.isLoading = false)));
 	}
 }

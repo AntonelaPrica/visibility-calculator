@@ -12,10 +12,12 @@ import { RegisterPageComponent } from './core/pages/register-page/register-page.
 import { NavbarContainerComponent } from './core/containers/navbar-container/navbar-container.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './modules/shared/auth/interceptors/auth.interceptor';
+import { LoadingOverlayContainerComponent } from './core/containers/loading-overlay-container/loading-overlay-container.component';
 
 @NgModule({
 	declarations: [
 		AppComponent,
+		LoadingOverlayContainerComponent,
 		LoginFormContainerComponent,
 		RegisterFormContainerComponent,
 		LoginPageComponent,

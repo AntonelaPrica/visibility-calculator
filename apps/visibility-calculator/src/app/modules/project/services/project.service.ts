@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { finalize, firstValueFrom } from 'rxjs';
 import {
 	ICreateProject,
 	IEntityVisibility,
@@ -9,10 +9,11 @@ import {
 	IProjectClassification,
 	IProjectStructure,
 } from '@ro-ubb/api-interfaces';
+import { LoadingManagerService } from '../../shared/loading-manager.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProjectService {
-	constructor(private http: HttpClient) {}
+	constructor(private http: HttpClient, private loadingManager: LoadingManagerService) {}
 
 	async parseProject(file: File): Promise<IProjectStructure> {
 		const formData = new FormData();
@@ -21,22 +22,45 @@ export class ProjectService {
 	}
 
 	async getProjects(): Promise<IProject[]> {
-		return firstValueFrom(this.http.get<IProject[]>('api/project'));
+		this.loadingManager.isLoading = true;
+		return firstValueFrom(
+			this.http.get<IProject[]>('api/project').pipe(finalize(() => (this.loadingManager.isLoading = false)))
+		);
 	}
 
 	async getNewGraphFromClassification(projectClassification: IProjectClassification): Promise<IProjectStructure> {
-		return firstValueFrom(this.http.post<IProjectStructure>('api/project/graph', projectClassification));
+		this.loadingManager.isLoading = true;
+		return firstValueFrom(
+			this.http
+				.post<IProjectStructure>('api/project/graph', projectClassification)
+				.pipe(finalize(() => (this.loadingManager.isLoading = false)))
+		);
 	}
 
 	async saveProject(projectToSave: ICreateProject): Promise<IProject> {
-		return firstValueFrom(this.http.post<IProject>('api/project', projectToSave));
+		this.loadingManager.isLoading = true;
+		return firstValueFrom(
+			this.http
+				.post<IProject>('api/project', projectToSave)
+				.pipe(finalize(() => (this.loadingManager.isLoading = false)))
+		);
 	}
 
 	async getProjectVisibility(projectId: string): Promise<IEntityVisibility[]> {
-		return firstValueFrom(this.http.get<IEntityVisibility[]>(`api/project/${projectId}/visibility`));
+		this.loadingManager.isLoading = true;
+		return firstValueFrom(
+			this.http
+				.get<IEntityVisibility[]>(`api/project/${projectId}/visibility`)
+				.pipe(finalize(() => (this.loadingManager.isLoading = false)))
+		);
 	}
 
 	async getProjectGraph(projectId: string): Promise<IGraph> {
-		return firstValueFrom(this.http.get<IGraph>(`api/project/${projectId}/graph`));
+		this.loadingManager.isLoading = true;
+		return firstValueFrom(
+			this.http
+				.get<IGraph>(`api/project/${projectId}/graph`)
+				.pipe(finalize(() => (this.loadingManager.isLoading = false)))
+		);
 	}
 }
