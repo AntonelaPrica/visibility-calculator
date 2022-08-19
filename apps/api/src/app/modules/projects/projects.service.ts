@@ -11,6 +11,7 @@ import { NodeEntity } from './entities/node.entity';
 import { CreateProjectDto, ProjectDto } from './dtos/projects.dto';
 import { GraphDto } from './dtos/projects-graph.dto';
 import { ProjectClassificationDto, ProjectStructureDto } from './dtos/projects-classification.dto';
+import { UserEntity } from '../users/entities/user.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -20,13 +21,18 @@ export class ProjectsService {
 		@InjectRepository(GraphEntity)
 		private graphEntityRepository: Repository<GraphEntity>,
 		@InjectRepository(NodeEntity)
-		private nodeEntityRepository: Repository<NodeEntity>
+		private nodeEntityRepository: Repository<NodeEntity>,
+		@InjectRepository(UserEntity)
+		private usersRepository: Repository<UserEntity>
 	) {}
 
-	async getById(id: string): Promise<ProjectDto> {
+	async getById(id: string, currentUserId: string): Promise<ProjectDto> {
 		let foundProject: ProjectEntity = null;
 		try {
-			foundProject = await this.projectEntityRepository.findOne({ where: { id }, relations: ['graph'] });
+			foundProject = await this.projectEntityRepository.findOne({
+				where: { id, user: { id: currentUserId } },
+				relations: ['graph'],
+			});
 		} catch (error) {
 			Logger.error(`ProjectsService.getById ${error}`);
 			throw new NotFoundException(`The project ${id} could not be found.`);
@@ -34,9 +40,9 @@ export class ProjectsService {
 		return ProjectsMappers.mapToProjectDto(foundProject);
 	}
 
-	async getGraphByProjectId(projectId: string): Promise<GraphDto> {
+	async getGraphByProjectId(projectId: string, currentUserId: string): Promise<GraphDto> {
 		try {
-			const project = await this.getById(projectId);
+			const project = await this.getById(projectId, currentUserId);
 			const graph = await this.graphEntityRepository.findOne({ where: { id: project.graph.id }, relations: ['nodes'] });
 			return ProjectsMappers.mapToGraphDto(graph);
 		} catch (error) {
@@ -45,13 +51,17 @@ export class ProjectsService {
 		}
 	}
 
-	async getAll(): Promise<ProjectDto[]> {
-		const foundProjects = await this.projectEntityRepository.find({ relations: ['graph'] });
+	async getAll(currentUserId: string): Promise<ProjectDto[]> {
+		const foundProjects = await this.projectEntityRepository.find({
+			relations: ['graph'],
+			where: { user: { id: currentUserId } },
+		});
 		return foundProjects.map((project) => ProjectsMappers.mapToProjectDto(project));
 	}
 
-	async saveProject(newProject: CreateProjectDto): Promise<ProjectDto> {
+	async saveProject(newProject: CreateProjectDto, currentUserId: string): Promise<ProjectDto> {
 		try {
+			const currentUserEntity = await this.usersRepository.findOneBy({ id: currentUserId });
 			const initialGraph = new GraphEntity({ id: newProject.graph.id });
 			const savedGraph = await this.graphEntityRepository.save(initialGraph);
 
@@ -62,6 +72,7 @@ export class ProjectsService {
 				name: newProject.name,
 				description: newProject.description,
 				graph: savedGraph,
+				user: currentUserEntity,
 			});
 			const savedProject: ProjectEntity = await this.projectEntityRepository.save(entity);
 			return ProjectsMappers.mapToProjectDto(savedProject);

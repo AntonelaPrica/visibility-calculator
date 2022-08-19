@@ -10,8 +10,8 @@ import { NodeTypeEnum } from '@ro-ubb/api-interfaces';
 export class ProjectsVisibilityService {
 	constructor(private projectsService: ProjectsService) {}
 
-	async calculateVisibility(projectId: string): Promise<EntityVisibilityDto[]> {
-		const graphDto = await this.projectsService.getGraphByProjectId(projectId);
+	async calculateVisibility(projectId: string, currentUserId: string): Promise<EntityVisibilityDto[]> {
+		const graphDto = await this.projectsService.getGraphByProjectId(projectId, currentUserId);
 		const nodesMap = new Map<string, NodeDto>();
 
 		graphDto.nodes.forEach((node) => nodesMap.set(node.id, node));

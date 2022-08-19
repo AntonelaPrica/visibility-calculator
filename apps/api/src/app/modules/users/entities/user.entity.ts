@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { ProjectEntity } from '../../projects/entities/project.entity';
 
 @Entity()
 export class UserEntity {
@@ -16,6 +17,9 @@ export class UserEntity {
 
 	@Column({ nullable: false })
 	password?: string;
+
+	@OneToMany(() => ProjectEntity, (photo) => photo.user)
+	projects: ProjectEntity[];
 
 	constructor(private values: Partial<UserEntity>) {
 		if (values) {

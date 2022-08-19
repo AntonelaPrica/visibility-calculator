@@ -1,5 +1,6 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { GraphEntity } from './graph.entity';
+import { UserEntity } from '../../users/entities/user.entity';
 
 @Entity()
 export class ProjectEntity {
@@ -16,12 +17,17 @@ export class ProjectEntity {
 	@JoinColumn()
 	graph: GraphEntity;
 
+	@ManyToOne(() => UserEntity, (user) => user.projects)
+	@JoinColumn()
+	user: UserEntity;
+
 	constructor(values: Partial<ProjectEntity>) {
 		if (values) {
 			this.id = values.id;
 			this.name = values.name;
 			this.description = values.description;
 			this.graph = values.graph;
+			this.user = values.user;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Request, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOkResponse, ApiTags } from '@nestjs/swagger';
@@ -46,8 +46,8 @@ export class ProjectsController {
 	@ApiOkResponse({
 		type: GraphDto,
 	})
-	async getProjectGraph(@Param('id') projectId: string): Promise<GraphDto> {
-		return this.projectService.getGraphByProjectId(projectId);
+	async getProjectGraph(@Param('id') projectId: string, @Request() request): Promise<GraphDto> {
+		return this.projectService.getGraphByProjectId(projectId, request.user.userId);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -69,8 +69,8 @@ export class ProjectsController {
 	@ApiOkResponse({
 		type: [EntityVisibilityDto],
 	})
-	async getProjectVisibility(@Param('id') projectId: string): Promise<EntityVisibilityDto[]> {
-		return this.projectsVisibilityService.calculateVisibility(projectId);
+	async getProjectVisibility(@Param('id') projectId: string, @Request() request): Promise<EntityVisibilityDto[]> {
+		return this.projectsVisibilityService.calculateVisibility(projectId, request.user.userId);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -78,8 +78,8 @@ export class ProjectsController {
 	@ApiOkResponse({
 		type: ProjectDto,
 	})
-	async getById(@Param('id') id: string): Promise<ProjectDto> {
-		return this.projectService.getById(id);
+	async getById(@Param('id') id: string, @Request() request): Promise<ProjectDto> {
+		return this.projectService.getById(id, request.user.userId);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -87,8 +87,8 @@ export class ProjectsController {
 	@ApiOkResponse({
 		type: [ProjectDto],
 	})
-	async getAll(): Promise<ProjectDto[]> {
-		return this.projectService.getAll();
+	async getAll(@Request() request): Promise<ProjectDto[]> {
+		return this.projectService.getAll(request.user.userId);
 	}
 
 	@UseGuards(JwtAuthGuard)
@@ -99,7 +99,7 @@ export class ProjectsController {
 	@ApiOkResponse({
 		type: ProjectDto,
 	})
-	async saveProject(@Body() projectDto: CreateProjectDto): Promise<ProjectDto> {
-		return this.projectService.saveProject(projectDto);
+	async saveProject(@Body() projectDto: CreateProjectDto, @Request() request): Promise<ProjectDto> {
+		return this.projectService.saveProject(projectDto, request.user.userId);
 	}
 }
