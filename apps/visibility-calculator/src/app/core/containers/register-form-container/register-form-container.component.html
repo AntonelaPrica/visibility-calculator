@@ -29,7 +29,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>First Name</mat-label>
-        <input type='text' matInput placeholder='John' formControlName='firstName'/>
+        <input type='text' matInput placeholder='Smith' formControlName='firstName'/>
         <mat-error *ngIf="formGroup.get('firstName').hasError('required')">
           First Name is required
         </mat-error>
@@ -37,7 +37,7 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Last Name</mat-label>
-        <input type='text' matInput placeholder='Smith' formControlName='lastName'/>
+        <input type='text' matInput placeholder='John' formControlName='lastName'/>
         <mat-error *ngIf="formGroup.get('lastName').hasError('required')">
           Last Name is required
         </mat-error>
