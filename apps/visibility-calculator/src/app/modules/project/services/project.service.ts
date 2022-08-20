@@ -63,6 +63,12 @@ export class ProjectService {
 				.pipe(finalize(() => (this.loadingManager.isLoading = false)))
 		);
 	}
+	async getProjectById(projectId: string): Promise<IProject> {
+		this.loadingManager.isLoading = true;
+		return firstValueFrom(
+			this.http.get<IProject>(`api/project/${projectId}`).pipe(finalize(() => (this.loadingManager.isLoading = false)))
+		);
+	}
 
 	async removeProject(projectId: string): Promise<void> {
 		this.loadingManager.isLoading = true;

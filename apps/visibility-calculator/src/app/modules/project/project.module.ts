@@ -19,6 +19,7 @@ import { ProjectGraphTabComponent } from './containers/project-view-container/pr
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
 import { GraphContainerComponent } from './containers/graph-container/graph-container.component';
+import { ProjectStatisticsTabComponent } from './containers/project-view-container/project-statistics-tab/project-statistics-tab.component';
 
 @NgModule({
 	declarations: [
@@ -36,6 +37,7 @@ import { GraphContainerComponent } from './containers/graph-container/graph-cont
 		ProjectViewContainerComponent,
 		ProjectClassificationTreeStructureComponent,
 		GraphContainerComponent,
+		ProjectStatisticsTabComponent,
 	],
 	imports: [
 		SharedModule,

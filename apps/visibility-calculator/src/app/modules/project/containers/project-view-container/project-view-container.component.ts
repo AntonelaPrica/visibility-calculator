@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ProjectService } from '../../services/project.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IEntityVisibility, IGraph, IProject } from '@ro-ubb/api-interfaces';
+import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
 	selector: 'ro-ubb-project-view-container',
 	template: `
@@ -17,23 +19,40 @@ import { IEntityVisibility, IGraph, IProject } from '@ro-ubb/api-interfaces';
 					<ro-ubb-project-visibility-tab [projectVisibility]="projectVisibility"></ro-ubb-project-visibility-tab>
 				</mat-tab>
 				<mat-tab label="Graph">
-					<ro-ubb-project-graph-tab [projectGraph]="projectGraph"></ro-ubb-project-graph-tab>
+					<ng-template matTabContent>
+						<ro-ubb-project-graph-tab [projectGraph]="projectGraph"></ro-ubb-project-graph-tab>
+					</ng-template>
+				</mat-tab>
+				<mat-tab label="Statistics">
+					<ng-template matTabContent>
+						<ro-ubb-project-statistics-tab [projectVisibility]="projectVisibility"></ro-ubb-project-statistics-tab>
+					</ng-template>
 				</mat-tab>
 			</mat-tab-group>
 		</div>
 	`,
 	styleUrls: ['project-view-container.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectViewContainerComponent {
-	@Input() project: IProject;
-
+export class ProjectViewContainerComponent implements OnInit {
+	projectId: string;
+	project: IProject = null;
 	projectGraph: IGraph;
 	projectVisibility: IEntityVisibility[] = [];
 
-	constructor(private projectService: ProjectService, private router: Router) {
-		this.project = this.router.getCurrentNavigation().extras.state['projectDto'];
+	constructor(
+		private projectService: ProjectService,
+		private activateRoute: ActivatedRoute,
+		private changeDetectorRef: ChangeDetectorRef
+	) {}
 
-		this.projectService.getProjectVisibility(this.project.id).then((result) => (this.projectVisibility = result));
-		this.projectService.getProjectGraph(this.project.id).then((result) => (this.projectGraph = result));
+	async ngOnInit(): Promise<void> {
+		this.activateRoute.params.pipe(untilDestroyed(this)).subscribe(async (params) => {
+			this.projectId = params['id'];
+			this.project = await this.projectService.getProjectById(this.projectId);
+			this.projectVisibility = await this.projectService.getProjectVisibility(this.projectId);
+			this.projectGraph = await this.projectService.getProjectGraph(this.projectId);
+			this.changeDetectorRef.detectChanges();
+		});
 	}
 }
