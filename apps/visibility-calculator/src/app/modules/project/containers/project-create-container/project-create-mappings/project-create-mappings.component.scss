@@ -1,5 +1,15 @@
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto auto;
-  gap: 5%;
+  grid-template-columns: 1fr 1fr;
+  overflow-y: auto;
+}
+
+.grid-container-label {
+  justify-self: center;
+}
+
+
+.grid-container-select {
+  justify-self: start;
+  width: 100%;
 }

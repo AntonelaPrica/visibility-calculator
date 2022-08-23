@@ -12,12 +12,11 @@ import { IProjectDataClassification } from '@ro-ubb/api-interfaces';
 	template: ` <div class="right-aligned p-1">
 			<button mat-raised-button matStepperNext color="primary" (click)="onNext()">Next</button>
 		</div>
-		<form novalidate>
-			<div class="grid-container" *ngFor="let dto of dtos">
-				<span></span>
-				<label>{{ dto?.name }} </label>
-
+		<form class="grid-container" novalidate>
+			<ng-container *ngFor="let dto of dtos">
+				<div class="grid-container-label">{{ dto?.name }}</div>
 				<ngx-mat-tree-select-input-ngmodel
+					class="grid-container-select"
 					(selectionChanged)="onSelect($event, dto)"
 					[multiple]="true"
 					[options]="options"
@@ -26,7 +25,7 @@ import { IProjectDataClassification } from '@ro-ubb/api-interfaces';
 					[canSelectParentNode]="false"
 				>
 				</ngx-mat-tree-select-input-ngmodel>
-			</div>
+			</ng-container>
 		</form>`,
 	styleUrls: ['project-create-mappings.component.scss'],
 })
