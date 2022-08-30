@@ -9,7 +9,6 @@ An API for the calculation of field visibility intended as a Dissertation Projec
 - Nest.js
 - Angular
 - Nx
-- Jest
 - Postgres
 - TypeORM
 
